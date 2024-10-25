@@ -21,13 +21,11 @@ public class Balance{
         return total;
     }
 
-    public void computeBalance(int accountNum){
-        Login accountGetter = new Login();
-        ArrayList<Account> accounts = login.getAllAccounts();
-        for (Account account : accounts) {
-            if(account.getAccountNum() == accountNum){
-                
-            }
+    public void computeBalance(ArrayList<Account> accountList){
+        
+        String format = "";
+        for (Account account : accountList) {
+            format += account.getAccountNum() + " " + account.getPin() + " " + account.getBalance() + "\n";
         }
     }
 }

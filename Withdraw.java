@@ -31,15 +31,15 @@ public class Withdraw{
         return withdrawList;
     }
 
-    public void withdrawamount(int accountNum, double amount){
+    public void AmountWithdraw(int accountNum, double amount){
         ArrayList<Transaction> withdrawList = getWithdrawList();
         FileWriter fw;
         BufferedWriter bw;
-        int counter = 0;
+        int transId = 0;
         if(!withdrawList.isEmpty()){
             for (Transaction transaction : withdrawList) {
                 if(transaction.getAccountNum() == accountNum){
-                    counter++;
+                    transId++;
                 }
             }
         }
@@ -47,7 +47,7 @@ public class Withdraw{
         try{
             fw = new FileWriter(withdrawFile, true);
             bw = new BufferedWriter(fw);
-            bw.write(accountNum + " " + counter + " " + amount + "\n");
+            bw.write(accountNum + " " + transId + " " + amount + "\n");
             bw.close();
         }
         catch(IOException e){
@@ -69,14 +69,14 @@ public class Withdraw{
     }
 
     // TO DO: move to showBalance class
-    public double totalWithdraw(int accountNum){
-        ArrayList<Transaction> withdrawList = getWithdrawList();
-        double total = 0;
-        for (Transaction transaction : withdrawList) {
-            if(transaction.getAccountNum() == accountNum){
-                total += transaction.getAmount();
-            }
-        }
-        return total;
-    }
+    // public double totalWithdraw(int accountNum){
+    //     ArrayList<Transaction> withdrawList = getWithdrawList();
+    //     double total = 0;
+    //     for (Transaction transaction : withdrawList) {
+    //         if(transaction.getAccountNum() == accountNum){
+    //             total += transaction.getAmount();
+    //         }
+    //     }
+    //     return total;
+    // }
 }

@@ -30,4 +30,28 @@ public class Deposit{
         }
         return depositList;
     }
+
+    public void AmountDeposit(int accountNum, double amount){
+        ArrayList<Transaction> depositList = getDepositList();
+        FileWriter fw;
+        BufferedWriter bw;
+        int transId = 0;
+        if(!depositList.isEmpty()){
+            for (Transaction transaction : depositList) {
+                if(transaction.getAccountNum() == accountNum){
+                    transId++;
+                }
+            }
+        }
+
+        try{
+            fw = new FileWriter(depositFile, true);
+            bw = new BufferedWriter(fw);
+            bw.write(accountNum + " " + transId + " " + amount  + "\n");
+            bw.close();
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
+    }
 }
