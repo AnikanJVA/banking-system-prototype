@@ -1,4 +1,6 @@
 import java.util.*;
+
+import javax.swing.plaf.synth.SynthScrollBarUI;
 public class Main{
     public static Scanner input = new Scanner(System.in);
     public static Login login = new Login();
@@ -64,7 +66,7 @@ public class Main{
 
             } 
             catch(ErrorHandler e){
-                e.getMessage();
+                System.out.println(e.getMessage());
             }
 
             catch(Exception e){
