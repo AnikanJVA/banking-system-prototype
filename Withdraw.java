@@ -31,18 +31,18 @@ public class Withdraw{
         return withdrawList;
     }
 
-    public void AmountWithdraw(int accountNum, double amount){
+    public void AmountWithdraw(int accountNum, double amount){ 
+        Balance balance = new Balance();
         ArrayList<Transaction> withdrawList = getWithdrawList();
         FileWriter fw;
         BufferedWriter bw;
         int transId = 0;
-        if(!withdrawList.isEmpty()){
-            for (Transaction transaction : withdrawList) {
-                if(transaction.getAccountNum() == accountNum){
-                    transId++;
-                }
+        for (Transaction transaction : withdrawList) {
+            if(transaction.getAccountNum() == accountNum){
+                transId++;
             }
         }
+        
 
         try{
             fw = new FileWriter(withdrawFile, true);
@@ -53,30 +53,20 @@ public class Withdraw{
         catch(IOException e){
             e.printStackTrace();
         }
+
+        balance.computeBalance();
     }
 
-    public double showBalance(int accountNum){
-        Login accountGetter = new Login();
-        ArrayList<Account> accounts = accountGetter.getAllAccounts();
-        double balance = 0;
+    // public double showBalance(int accountNum){
+    //     Login accountGetter = new Login();
+    //     ArrayList<Account> accounts = accountGetter.getAllAccounts();
+    //     double balance = 0;
         
-        for (Account account : accounts) {
-            if(account.getAccountNum() == accountNum){
-                balance = account.getBalance();
-            }
-        }
-        return balance;
-    }
-
-    // TO DO: move to showBalance class
-    // public double totalWithdraw(int accountNum){
-    //     ArrayList<Transaction> withdrawList = getWithdrawList();
-    //     double total = 0;
-    //     for (Transaction transaction : withdrawList) {
-    //         if(transaction.getAccountNum() == accountNum){
-    //             total += transaction.getAmount();
+    //     for (Account account : accounts) {
+    //         if(account.getAccountNum() == accountNum){
+    //             balance = account.getCurrentBalance();
     //         }
     //     }
-    //     return total;
+    //     return balance;
     // }
 }

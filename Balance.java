@@ -1,12 +1,10 @@
 import java.util.*;
 import java.io.*;
 public class Balance{
-    private File accountFile, withdrawFile, depositFile;
+    private File accountFile;
 
     public Balance(){
         accountFile = new File("accounts.txt");
-        withdrawFile = new File("withdraws.txt");
-        // depositFile = new File("deposits.txt");
     }
 
     public double AllAmountWithdraw(int accountNum){
@@ -21,11 +19,41 @@ public class Balance{
         return total;
     }
 
-    public void computeBalance(ArrayList<Account> accountList){
-        
+    public double AllAmountDeposit(int accountNum){
+        Deposit deposit = new Deposit();
+        ArrayList<Transaction> depositList = deposit.getDepositList();
+        double total = 0;
+        for (Transaction transaction : depositList) {
+            if(transaction.getAccountNum() == accountNum){
+                total += transaction.getAmount();
+            }
+        }
+        return total;
+    }
+
+    public void computeBalance(){
+        Login accountsListGetter = new Login();
+        ArrayList<Account> accountList = accountsListGetter.getAllAccounts();
+        double currentBalance = 0;
+
+        for (Account account : accountList) { 
+            currentBalance = account.getStartingBalance() + AllAmountDeposit(account.getAccountNum());
+            currentBalance -= AllAmountWithdraw(account.getAccountNum());
+            account.setCurrentBalance(currentBalance);
+        }
+
         String format = "";
         for (Account account : accountList) {
-            format += account.getAccountNum() + " " + account.getPin() + " " + account.getBalance() + "\n";
+            format += account.getAccountNum() + " " + account.getPin() + " " + account.getStartingBalance() + " " + account.getCurrentBalance() + "\n";
+        }
+
+        try{
+            Formatter formatFile = new Formatter(accountFile);
+            formatFile.format("%S", format);
+            formatFile.close();
+        }
+        catch(FileNotFoundException e){
+            e.printStackTrace();
         }
     }
 }

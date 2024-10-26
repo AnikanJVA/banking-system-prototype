@@ -1,10 +1,15 @@
 import java.util.*;
 import java.io.*;
 public class Login{
+    private Scanner input = new Scanner(System.in);
     private File accountFile;
     
     public Login(){
         accountFile = new File("accounts.txt");
+    }
+
+    public File getFile(){
+        return accountFile;
     }
 
     public ArrayList<Account> getAllAccounts(){
@@ -16,7 +21,8 @@ public class Login{
                     Account account = new Account();
                     account.setAccountNum(scan.nextInt());
                     account.setPin(scan.nextInt());
-                    account.setBalance(scan.nextDouble());
+                    account.setStartingBalance(scan.nextDouble());
+                    account.setCurrentBalance(scan.nextDouble());
                     accountList.add(account);
                 }
                 catch(Exception err){
@@ -29,6 +35,26 @@ public class Login{
             e.printStackTrace();
         }
         return accountList;
+    }
+
+    public int runLogin(){
+        int accountNum, pin;
+        while(true){
+            System.out.print("Enter account number: ");
+            try{
+                accountNum = Integer.parseInt(input.nextLine());
+                System.out.print("Enter pin: ");
+                pin = Integer.parseInt(input.nextLine());
+
+                if(isPinCorrect(accountNum, pin)){
+                    return accountNum;
+                }
+            }
+            catch(Exception e){
+                System.out.println("Enter only numbers. Please try again.");
+                return runLogin();
+            }
+        }
     }
 
     public boolean isPinCorrect(int accountNum, int pin){

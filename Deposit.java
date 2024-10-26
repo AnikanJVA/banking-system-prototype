@@ -32,6 +32,7 @@ public class Deposit{
     }
 
     public void AmountDeposit(int accountNum, double amount){
+        Balance balance = new Balance();
         ArrayList<Transaction> depositList = getDepositList();
         FileWriter fw;
         BufferedWriter bw;
@@ -47,11 +48,13 @@ public class Deposit{
         try{
             fw = new FileWriter(depositFile, true);
             bw = new BufferedWriter(fw);
-            bw.write(accountNum + " " + transId + " " + amount  + "\n");
+            bw.write(accountNum + " " + transId + " " + amount + "\n");
             bw.close();
         }
         catch(IOException e){
             e.printStackTrace();
         }
+
+        balance.computeBalance();
     }
 }
