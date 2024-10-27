@@ -37,11 +37,9 @@ public class Deposit{
         FileWriter fw;
         BufferedWriter bw;
         int transId = 0;
-        if(!depositList.isEmpty()){
-            for (Transaction transaction : depositList) {
-                if(transaction.getAccountNum() == accountNum){
-                    transId++;
-                }
+        for (Transaction transaction : depositList) {
+            if(transaction.getAccountNum() == accountNum){
+                transId++;
             }
         }
 
