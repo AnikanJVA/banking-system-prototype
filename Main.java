@@ -9,6 +9,7 @@ public class Main{
     public static Balance balance = new Balance();
     public static void main(String[] args) {
         int accountNum = login.runLogin();
+        int choice = 0;
         double amount = 0;
         boolean flag = true;
         while(flag){
@@ -20,7 +21,7 @@ public class Main{
             System.out.println("[5] Exit");
             System.out.print("Enter number of choice: ");
             try{
-                int choice = Integer.parseInt(input.nextLine());
+                choice = Integer.parseInt(input.nextLine());
                 switch (choice) {
                     case 1:
                         System.out.println("================== WITHDRAW ==================");
