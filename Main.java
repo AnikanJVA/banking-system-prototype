@@ -1,6 +1,4 @@
 import java.util.*;
-
-import javax.swing.plaf.synth.SynthScrollBarUI;
 public class Main{
     public static Scanner input = new Scanner(System.in);
     public static Login login = new Login();
