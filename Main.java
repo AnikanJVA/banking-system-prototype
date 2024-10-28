@@ -70,6 +70,7 @@ public class Main{
 
             catch(Exception e){
                 System.out.println("Error: Value must be a number or must not be empty. Thank you!");
+                flag = continuePropmt();
             }
         }
     }

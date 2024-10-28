@@ -8,10 +8,6 @@ public class Login{
         accountFile = new File("accounts.txt");
     }
 
-    public File getFile(){
-        return accountFile;
-    }
-
     public ArrayList<Account> getAllAccounts(){
         ArrayList<Account> accountList = new ArrayList<>();
         try{
