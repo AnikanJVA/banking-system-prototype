@@ -2,8 +2,6 @@ import java.util.*;
 public class Main{
     public static Scanner input = new Scanner(System.in);
     public static Login login = new Login();
-    public static Withdraw withdraw = new Withdraw();
-    public static Deposit deposit = new Deposit();
     public static Balance balance = new Balance();
     public static void main(String[] args) {
         int accountNum = login.runLogin();
@@ -11,6 +9,8 @@ public class Main{
         double amount = 0;
         boolean flag = true;
         while(flag){
+            Withdraw withdraw = new Withdraw(accountNum);
+            Deposit deposit = new Deposit(accountNum);
             System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
             System.out.println("[1] Withdraw");
             System.out.println("[2] Deposit");
@@ -30,7 +30,7 @@ public class Main{
                             System.out.println("Withdraw failed. Insufficient balance.");
                             break;
                         }
-                        withdraw.AmountWithdraw(accountNum, amount);
+                        withdraw.AmountWithdraw(amount);
                         System.out.println("Withdraw successful.");
                         break;
 
@@ -39,15 +39,15 @@ public class Main{
                         System.out.printf("Current balance: %.2f%n", getCurrentBalance(accountNum));
                         System.out.print("Enter amount to deposit: ");
                         amount = Double.parseDouble(input.nextLine());
-                        deposit.AmountDeposit(accountNum, amount);
+                        deposit.AmountDeposit(amount);
                         System.out.println("Deposit successful.");
                         break;
 
                     case 3:
                         System.out.println("================== BALANCE ==================");
                         System.out.printf("Current Balance: %.2f%n", getCurrentBalance(accountNum));
-                        // System.out.printf("Total Amount Deposited: %.2f%n", balance.AllAmountDeposit(accountNum));
-                        // System.out.printf("Total Amount Withdrawn: %.2f%n", balance.AllAmountWithdraw(accountNum));
+                        System.out.printf("Total Amount Deposited: %.2f%n", balance.AllAmountDeposit(accountNum));
+                        System.out.printf("Total Amount Withdrawn: %.2f%n", balance.AllAmountWithdraw(accountNum));
                         break;
 
                     case 4:

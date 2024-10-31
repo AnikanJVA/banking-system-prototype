@@ -3,8 +3,8 @@ import java.io.*;
 public class Withdraw{
     private File withdrawFile;
 
-    public Withdraw(){
-        withdrawFile = new File("withdraws.txt");
+    public Withdraw(int accountNum){
+        withdrawFile = new File(accountNum + "_withdraws.txt");
     }
 
     public ArrayList<Transaction> getWithdrawList(){
@@ -13,11 +13,10 @@ public class Withdraw{
             Scanner scan = new Scanner(new FileReader(withdrawFile));
             while(scan.hasNextLine()){
                 try{
-                    Transaction Transaction = new Transaction();
-                    Transaction.setAccountNum(scan.nextInt());
-                    Transaction.setTransId(scan.nextInt());
-                    Transaction.setAmount(scan.nextDouble());
-                    withdrawList.add(Transaction);
+                    Transaction transaction = new Transaction();
+                    transaction.setTransId(scan.nextInt());
+                    transaction.setAmount(scan.nextDouble());
+                    withdrawList.add(transaction);
                 }
                 catch(Exception err){
                     continue;
@@ -26,28 +25,25 @@ public class Withdraw{
             scan.close();
         }
         catch(FileNotFoundException e){
-            e.printStackTrace();
+            // e.printStackTrace();
         }
         return withdrawList;
     }
 
-    public void AmountWithdraw(int accountNum, double amount){ 
+    public void AmountWithdraw(double amount){ 
         Balance balance = new Balance();
         ArrayList<Transaction> withdrawList = getWithdrawList();
         FileWriter fw;
         BufferedWriter bw;
         int transId = 0;
-        for (Transaction transaction : withdrawList) {
-            if(transaction.getAccountNum() == accountNum){
-                transId++;
-            }
+        for (int i = 0; i < withdrawList.size(); i++) {
+            transId++;
         }
-        
 
         try{
             fw = new FileWriter(withdrawFile, true);
             bw = new BufferedWriter(fw);
-            bw.write(accountNum + " " + transId + " " + amount + "\n");
+            bw.write(transId + " " + amount + "\n");
             bw.close();
         }
         catch(IOException e){
