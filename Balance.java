@@ -12,8 +12,7 @@ public class Balance{
         ArrayList<Transaction> withdrawList = withdraw.getWithdrawList();
         double total = 0;
         for (Transaction transaction : withdrawList) {
-            System.out.println("+================+Withdraws+================+");
-            System.out.println("id: " + transaction.getTransId() + "\namount: " + transaction.getAmount());
+            // System.out.println("id: " + transaction.getTransId() + "\namount: " + transaction.getAmount());
             total += transaction.getAmount();
         }
         return total;
@@ -24,8 +23,7 @@ public class Balance{
         ArrayList<Transaction> depositList = deposit.getDepositList();
         double total = 0;
         for (Transaction transaction : depositList) {
-            System.out.println("+================+Deposits+================+");
-            System.out.println("id: " + transaction.getTransId() + "\namount: " + transaction.getAmount());
+            // System.out.println("id: " + transaction.getTransId() + "\namount: " + transaction.getAmount());
             total += transaction.getAmount();
         }
         return total;
@@ -37,7 +35,6 @@ public class Balance{
         double currentBalance = 0;
 
         for (Account account : accountList) {
-            System.out.println("!@#!@#!@#!@#++computing++!@#!@#!@#!@#");
             currentBalance = account.getStartingBalance() + AllAmountDeposit(account.getAccountNum());
             currentBalance -= AllAmountWithdraw(account.getAccountNum());
             account.setCurrentBalance(currentBalance);
