@@ -31,7 +31,6 @@ public class Deposit{
     }
 
     public void AmountDeposit(double amount){
-        Balance balance = new Balance();
         ArrayList<Transaction> depositList = getDepositList();
         FileWriter fw;
         BufferedWriter bw;
@@ -49,7 +48,20 @@ public class Deposit{
         catch(IOException e){
             e.printStackTrace();
         }
+    }
 
-        balance.computeBalance();
+    public void showBalance(int accountNum){
+        Balance balanceManager = new Balance();
+        Login accountListGetter = new Login();
+        ArrayList<Account> accountList = accountListGetter.getAllAccounts();
+        double balance = 0;
+
+        for (Account account : accountList) {
+            if (account.getAccountNum() == accountNum) {
+                balance = account.getBalance() + balanceManager.AllAmountDeposit(account.getAccountNum());
+                balance -= balanceManager.AllAmountWithdraw(account.getAccountNum());
+            }
+        }
+        System.out.printf("Current Balance: %.2f%n", balance);
     }
 }

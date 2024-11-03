@@ -23,7 +23,8 @@ public class Main{
                 switch (choice) {
                     case 1:
                         System.out.println("================== WITHDRAW ==================");
-                        System.out.printf("Current balance: %.2f%n", getCurrentBalance(accountNum));
+                        withdraw.showBalance(accountNum);
+                        // System.out.printf("Current balance: %.2f%n", getCurrentBalance(accountNum));
                         System.out.print("Enter amount to withdraw: ");
                         amount = Double.parseDouble(input.nextLine());
                         if(amount > getCurrentBalance(accountNum)){
@@ -36,7 +37,8 @@ public class Main{
 
                     case 2:
                         System.out.println("================== DEPOSIT ==================");
-                        System.out.printf("Current balance: %.2f%n", getCurrentBalance(accountNum));
+                        deposit.showBalance(accountNum);
+                        // System.out.printf("Current balance: %.2f%n", getCurrentBalance(accountNum));
                         System.out.print("Enter amount to deposit: ");
                         amount = Double.parseDouble(input.nextLine());
                         deposit.AmountDeposit(amount);
@@ -95,11 +97,11 @@ public class Main{
     }
 
     public static double getCurrentBalance(int accountNum){
-        ArrayList<Account> accountList = login.getAllAccounts();
+        ArrayList<Account> accountList = balance.computeBalance();
         double currentBalance = 0;
         for (Account account : accountList) {
             if(account.getAccountNum() == accountNum){
-                currentBalance = account.getCurrentBalance();
+                currentBalance = account.getBalance();
             }
         }
         return currentBalance;

@@ -31,7 +31,6 @@ public class Withdraw{
     }
 
     public void AmountWithdraw(double amount){ 
-        Balance balance = new Balance();
         ArrayList<Transaction> withdrawList = getWithdrawList();
         FileWriter fw;
         BufferedWriter bw;
@@ -49,20 +48,20 @@ public class Withdraw{
         catch(IOException e){
             e.printStackTrace();
         }
-
-        balance.computeBalance();
     }
 
-    // public double showBalance(int accountNum){
-    //     Login accountGetter = new Login();
-    //     ArrayList<Account> accounts = accountGetter.getAllAccounts();
-    //     double balance = 0;
+    public void showBalance(int accountNum){
+        Balance balanceManager = new Balance();
+        Login accountGetter = new Login();
+        ArrayList<Account> accountList = accountGetter.getAllAccounts();
+        double balance = 0;
         
-    //     for (Account account : accounts) {
-    //         if(account.getAccountNum() == accountNum){
-    //             balance = account.getCurrentBalance();
-    //         }
-    //     }
-    //     return balance;
-    // }
+        for (Account account : accountList) {
+            if(account.getAccountNum() == accountNum){
+                balance = account.getBalance() + balanceManager.AllAmountDeposit(account.getAccountNum());
+                balance -= balanceManager.AllAmountWithdraw(account.getAccountNum());
+            }
+        }
+        System.out.printf("Current Balance: %.2f%n", balance);
+    }
 }

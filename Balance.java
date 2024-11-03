@@ -1,11 +1,5 @@
 import java.util.*;
-import java.io.*;
 public class Balance{
-    private File accountFile;
-
-    public Balance(){
-        accountFile = new File("accounts.txt");
-    }
 
     public double AllAmountWithdraw(int accountNum){
         Withdraw withdraw = new Withdraw(accountNum);
@@ -29,29 +23,17 @@ public class Balance{
         return total;
     }
 
-    public void computeBalance(){
+    public ArrayList<Account> computeBalance(){
         Login accountsListGetter = new Login();
         ArrayList<Account> accountList = accountsListGetter.getAllAccounts();
         double currentBalance = 0;
 
         for (Account account : accountList) {
-            currentBalance = account.getStartingBalance() + AllAmountDeposit(account.getAccountNum());
+            currentBalance = account.getBalance() + AllAmountDeposit(account.getAccountNum());
             currentBalance -= AllAmountWithdraw(account.getAccountNum());
-            account.setCurrentBalance(currentBalance);
+            account.setBalance(currentBalance);
         }
 
-        String format = "";
-        for (Account account : accountList) {
-            format += account.getAccountNum() + " " + account.getPin() + " " + account.getStartingBalance() + " " + account.getCurrentBalance() + "\n";
-        }
-
-        try{
-            Formatter formatFile = new Formatter(accountFile);
-            formatFile.format("%S", format);
-            formatFile.close();
-        }
-        catch(FileNotFoundException e){
-            e.printStackTrace();
-        }
+        return accountList;
     }
 }

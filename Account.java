@@ -1,6 +1,6 @@
 public class Account{
     private int accountNum, pin;
-    private double startingBalance, currentBalance;
+    private double balance;
     
     public void setAccountNum(int AccountNum){
         this.accountNum = AccountNum;
@@ -10,12 +10,8 @@ public class Account{
         this.pin = pin;
     }
 
-    public void setStartingBalance(double startingBalance){
-        this.startingBalance = startingBalance;
-    }
-
-    public void setCurrentBalance(double currentBalance) {
-        this.currentBalance = currentBalance;
+    public void setBalance(double balance){
+        this.balance = balance;
     }
 
     public int getAccountNum(){
@@ -26,11 +22,7 @@ public class Account{
         return pin;
     }
 
-    public double getStartingBalance(){
-        return startingBalance;
-    }
-
-    public double getCurrentBalance() {
-        return currentBalance;
+    public double getBalance(){
+        return balance;
     }
 }
