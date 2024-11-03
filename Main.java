@@ -46,8 +46,8 @@ public class Main{
                     case 3:
                         System.out.println("================== BALANCE ==================");
                         System.out.printf("Current Balance: %.2f%n", getCurrentBalance(accountNum));
-                        System.out.printf("Total Amount Deposited: %.2f%n", balance.AllAmountDeposit(accountNum));
-                        System.out.printf("Total Amount Withdrawn: %.2f%n", balance.AllAmountWithdraw(accountNum));
+                        // System.out.printf("Total Amount Deposited: %.2f%n", balance.AllAmountDeposit(accountNum));
+                        // System.out.printf("Total Amount Withdrawn: %.2f%n", balance.AllAmountWithdraw(accountNum));
                         break;
 
                     case 4:
