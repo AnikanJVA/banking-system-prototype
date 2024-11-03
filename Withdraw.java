@@ -52,4 +52,17 @@ public class Withdraw{
 
         balance.computeBalance();
     }
+
+    // public double showBalance(int accountNum){
+    //     Login accountGetter = new Login();
+    //     ArrayList<Account> accounts = accountGetter.getAllAccounts();
+    //     double balance = 0;
+        
+    //     for (Account account : accounts) {
+    //         if(account.getAccountNum() == accountNum){
+    //             balance = account.getCurrentBalance();
+    //         }
+    //     }
+    //     return balance;
+    // }
 }
