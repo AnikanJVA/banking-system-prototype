@@ -24,7 +24,6 @@ public class Main{
                     case 1:
                         System.out.println("================== WITHDRAW ==================");
                         withdraw.showBalance(accountNum);
-                        // System.out.printf("Current balance: %.2f%n", getCurrentBalance(accountNum));
                         System.out.print("Enter amount to withdraw: ");
                         amount = Double.parseDouble(input.nextLine());
                         if(amount > getCurrentBalance(accountNum)){
@@ -38,7 +37,6 @@ public class Main{
                     case 2:
                         System.out.println("================== DEPOSIT ==================");
                         deposit.showBalance(accountNum);
-                        // System.out.printf("Current balance: %.2f%n", getCurrentBalance(accountNum));
                         System.out.print("Enter amount to deposit: ");
                         amount = Double.parseDouble(input.nextLine());
                         deposit.AmountDeposit(amount);

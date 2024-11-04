@@ -52,16 +52,12 @@ public class Deposit{
 
     public void showBalance(int accountNum){
         Balance balanceManager = new Balance();
-        Login accountListGetter = new Login();
-        ArrayList<Account> accountList = accountListGetter.getAllAccounts();
-        double balance = 0;
-
+        ArrayList<Account> accountList = balanceManager.computeBalance();
         for (Account account : accountList) {
-            if (account.getAccountNum() == accountNum) {
-                balance = account.getBalance() + balanceManager.AllAmountDeposit(account.getAccountNum());
-                balance -= balanceManager.AllAmountWithdraw(account.getAccountNum());
+            if(account.getAccountNum() == accountNum){
+                System.out.printf("Current Balance: %.2f%n", account.getBalance());
+                break;
             }
         }
-        System.out.printf("Current Balance: %.2f%n", balance);
     }
 }
