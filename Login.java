@@ -17,8 +17,7 @@ public class Login{
                     Account account = new Account();
                     account.setAccountNum(scan.nextInt());
                     account.setPin(scan.nextInt());
-                    account.setStartingBalance(scan.nextDouble());
-                    account.setCurrentBalance(scan.nextDouble());
+                    account.setBalance(scan.nextDouble());
                     accountList.add(account);
                 }
                 catch(Exception err){
