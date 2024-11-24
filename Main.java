@@ -23,10 +23,10 @@ public class Main{
                 switch (choice) {
                     case 1:
                         System.out.println("================== WITHDRAW ==================");
-                        withdraw.showBalance(accountNum);
+                        System.out.printf("Current Balance: %.2f%n", balance.getCurrentBalance(accountNum));
                         System.out.print("Enter amount to withdraw: ");
                         amount = Double.parseDouble(input.nextLine());
-                        if(amount > getCurrentBalance(accountNum)){
+                        if(amount > balance.getCurrentBalance(accountNum)){
                             System.out.println("Withdraw failed. Insufficient balance.");
                             break;
                         }
@@ -36,7 +36,7 @@ public class Main{
 
                     case 2:
                         System.out.println("================== DEPOSIT ==================");
-                        deposit.showBalance(accountNum);
+                        System.out.printf("Current Balance: %.2f%n", balance.getCurrentBalance(accountNum));
                         System.out.print("Enter amount to deposit: ");
                         amount = Double.parseDouble(input.nextLine());
                         deposit.AmountDeposit(amount);
@@ -45,7 +45,7 @@ public class Main{
 
                     case 3:
                         System.out.println("================== BALANCE ==================");
-                        System.out.printf("Current Balance: %.2f%n", getCurrentBalance(accountNum));
+                        System.out.printf("Current Balance: %.2f%n", balance.getCurrentBalance(accountNum));
                         // System.out.printf("Total Amount Deposited: %.2f%n", balance.AllAmountDeposit(accountNum));
                         // System.out.printf("Total Amount Withdrawn: %.2f%n", balance.AllAmountWithdraw(accountNum));
                         break;
@@ -92,16 +92,5 @@ public class Main{
         else{
             return false;
         }
-    }
-
-    public static double getCurrentBalance(int accountNum){
-        ArrayList<Account> accountList = balance.computeBalance();
-        double currentBalance = 0;
-        for (Account account : accountList) {
-            if(account.getAccountNum() == accountNum){
-                currentBalance = account.getBalance();
-            }
-        }
-        return currentBalance;
     }
 }

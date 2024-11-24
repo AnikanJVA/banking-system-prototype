@@ -50,14 +50,4 @@ public class Withdraw{
         }
     }
 
-    public void showBalance(int accountNum){
-        Balance balanceManager = new Balance();
-        ArrayList<Account> accountList = balanceManager.computeBalance();
-        for (Account account : accountList) {
-            if(account.getAccountNum() == accountNum){
-                System.out.printf("Current Balance: %.2f%n", account.getBalance());
-                break;
-            }
-        }
-    }
 }
