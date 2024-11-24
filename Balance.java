@@ -1,7 +1,7 @@
 import java.util.*;
 public class Balance{
 
-    public double AllAmountWithdraw(int accountNum){
+    public double allAmountWithdraw(int accountNum){
         Withdraw withdraw = new Withdraw(accountNum);
         ArrayList<Transaction> withdrawList = withdraw.getWithdrawList();
         double total = 0;
@@ -11,11 +11,21 @@ public class Balance{
         return total;
     }
 
-    public double AllAmountDeposit(int accountNum){
+    public double allAmountDeposit(int accountNum){
         Deposit deposit = new Deposit(accountNum);
         ArrayList<Transaction> depositList = deposit.getDepositList();
         double total = 0;
         for (Transaction transaction : depositList) {
+            total += transaction.getAmount();
+        }
+        return total;
+    }
+
+    public double allAmountPayment(int accountNum){
+        Payment payment = new Payment(accountNum);
+        ArrayList<Transaction> paymentList = payment.getPaymentList();
+        double total = 0;
+        for (Transaction transaction : paymentList) {
             total += transaction.getAmount();
         }
         return total;
@@ -27,9 +37,17 @@ public class Balance{
         double currentBalance = 0;
 
         for (Account account : accountList) {
-            currentBalance = account.getBalance() + AllAmountDeposit(account.getAccountNum());
-            currentBalance -= AllAmountWithdraw(account.getAccountNum());
-            account.setBalance(currentBalance);
+            if(account.getType() == 0){
+                currentBalance = account.getBalance() + allAmountDeposit(account.getAccountNum());
+                currentBalance -= allAmountWithdraw(account.getAccountNum());
+                account.setBalance(currentBalance);
+                continue;
+            }
+            else{
+                currentBalance = allAmountWithdraw(account.getAccountNum()) - allAmountPayment(account.getAccountNum()); // to fix
+                // currentBalance -= allAmountPayment(account.getAccountNum()); // to fix
+                account.setBalance(currentBalance);
+            }
         }
 
         return accountList;
@@ -45,4 +63,5 @@ public class Balance{
         }
         return currentBalance;
     }
+
 }

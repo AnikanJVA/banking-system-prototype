@@ -14,7 +14,7 @@ public class Deposit{
             while(scan.hasNextLine()){
                 try{
                     Transaction transaction = new Transaction();
-                    transaction.setTransId(scan.nextInt());
+                    transaction.setTransactionId(scan.nextInt());
                     transaction.setAmount(scan.nextDouble());
                     depositList.add(transaction);
                 }
@@ -30,24 +30,23 @@ public class Deposit{
         return depositList;
     }
 
-    public void AmountDeposit(double amount){
+    public void amountDeposit(double amount){
         ArrayList<Transaction> depositList = getDepositList();
         FileWriter fw;
         BufferedWriter bw;
-        int transId = 0;
+        int transactionId = 0;
         for (int i = 0; i < depositList.size(); i++) {
-            transId++;
+            transactionId++;
         }
 
         try{
             fw = new FileWriter(depositFile, true);
             bw = new BufferedWriter(fw);
-            bw.write(transId + " " + amount + "\n");
+            bw.write(transactionId + " " + amount + "\n");
             bw.close();
         }
         catch(IOException e){
             e.printStackTrace();
         }
     }
-
 }

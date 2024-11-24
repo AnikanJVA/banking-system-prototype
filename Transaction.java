@@ -1,17 +1,17 @@
 public class Transaction{
-    private int transId;
+    private int transactionId;
     private double amount;
 
-    public void setTransId(int transId) {
-        this.transId = transId;
+    public void setTransactionId(int transactionId) {
+        this.transactionId = transactionId;
     }
 
     public void setAmount(double amount) {
         this.amount = amount;
     }
 
-    public int getTransId() {
-        return transId;
+    public int getTransactionId() {
+        return transactionId;
     }
 
     public double getAmount() {

@@ -1,22 +1,22 @@
-import java.util.*;
 import java.io.*;
-public class Withdraw{
-    private File withdrawFile;
+import java.util.*;
+public class Payment{
+    private File paymentFile;
 
-    public Withdraw(int accountNum){
-        withdrawFile = new File(accountNum + "_withdraws.txt");
+    public Payment(int accountNum){
+        paymentFile = new File(accountNum + "_payments.txt");
     }
 
-    public ArrayList<Transaction> getWithdrawList(){
-        ArrayList<Transaction> withdrawList = new ArrayList<>();
+    public ArrayList<Transaction> getPaymentList(){
+        ArrayList<Transaction> paymentList = new ArrayList<>();
         try{
-            Scanner scan = new Scanner(new FileReader(withdrawFile));
+            Scanner scan = new Scanner(new FileReader(paymentFile));
             while(scan.hasNextLine()){
                 try{
                     Transaction transaction = new Transaction();
                     transaction.setTransactionId(scan.nextInt());
                     transaction.setAmount(scan.nextDouble());
-                    withdrawList.add(transaction);
+                    paymentList.add(transaction);
                 }
                 catch(Exception err){
                     continue;
@@ -27,20 +27,20 @@ public class Withdraw{
         catch(FileNotFoundException e){
             // e.printStackTrace();
         }
-        return withdrawList;
+        return paymentList;
     }
 
-    public void amountWithdraw(double amount){ 
-        ArrayList<Transaction> withdrawList = getWithdrawList();
+    public void amountPayment(double amount){
+        ArrayList<Transaction> paymentList = getPaymentList();
         FileWriter fw;
         BufferedWriter bw;
         int transactionId = 0;
-        for (int i = 0; i < withdrawList.size(); i++) {
+        for (int i = 0; i < paymentList.size(); i++) {
             transactionId++;
         }
 
         try{
-            fw = new FileWriter(withdrawFile, true);
+            fw = new FileWriter(paymentFile, true);
             bw = new BufferedWriter(fw);
             bw.write(transactionId + " " + amount + "\n");
             bw.close();
@@ -49,5 +49,4 @@ public class Withdraw{
             e.printStackTrace();
         }
     }
-
 }
