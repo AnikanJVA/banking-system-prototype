@@ -7,7 +7,7 @@ public class Main{
     public static Deposit deposit;
     public static Payment payment;
     public static void main(String[] args) {
-        Account account;
+        UserAccount useraccount;
         boolean flag = true;
         int choice = 0;
         
@@ -19,12 +19,20 @@ public class Main{
                 choice = Integer.parseInt(input.nextLine());
                 switch (choice) {
                     case 1:
-                        account = login.runLogin();
-                        if (account.getType() == 0) {
-                            runDebit(account);
-                        }
-                        else {
-                            runCredit(account);
+                        useraccount = login.runLogin();
+                        System.out.println("===========================================\nSelect Account: ");
+                        System.out.println("[1] debit account");
+                        System.out.println("[2] credit account");
+                        choice = Integer.parseInt(input.nextLine());
+                        switch (choice) {
+                            case 1:
+                                runDebit(useraccount.getDebitAccount());
+                                break;
+                        
+                            case 2:
+                                runCredit(useraccount.getCreditAccount());
+                            default:
+                                break;
                         }
                         break;
 

@@ -1,6 +1,7 @@
 public class Account{
-    private int accountNum, pin, type;
+    private int accountNum, pin;
     private double balance, limit;
+    private String type;
     
     public void setAccountNum(int AccountNum){
         this.accountNum = AccountNum;
@@ -10,7 +11,7 @@ public class Account{
         this.pin = pin;
     }
 
-    public void setType(int type) {
+    public void setType(String type) {
         this.type = type;
     }
 
@@ -30,7 +31,7 @@ public class Account{
         return pin;
     }
 
-    public int getType() {
+    public String getType() {
         return type;
     }
 
