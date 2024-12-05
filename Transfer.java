@@ -32,6 +32,8 @@ public class Transfer{
     }
 
     public void amountTransfer(double amount, int accountNum){ 
+        Payment payment = new Payment(accountNum);
+        payment.amountPayment(amount);
         ArrayList<Transaction> transferList = getTransferList();
         FileWriter fw;
         BufferedWriter bw;

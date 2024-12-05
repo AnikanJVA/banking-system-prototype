@@ -6,6 +6,7 @@ public class Main{
     public static Withdraw withdraw;
     public static Deposit deposit;
     public static Payment payment;
+    public static Transfer transfer;
     public static void main(String[] args) {
         UserAccount useraccount;
         boolean flag = true;
@@ -145,17 +146,20 @@ public class Main{
 
     public static void runDebit(Account account){
         double amount = 0;
+        int transferToAccountNum = 0;
         int choice = 0;
         boolean flag = true;
         int accountNum = account.getAccountNum();
         while(flag){
             withdraw = new Withdraw(accountNum);
             deposit = new Deposit(accountNum);
+            transfer = new Transfer(accountNum);
             System.out.println("================ DEBIT ACCOUNT ===============");
             System.out.println("[1] Withdraw");
             System.out.println("[2] Deposit");
             System.out.println("[3] Show Balance");
             System.out.println("[4] Log out");
+            System.out.println("[5] Transfer funds");
             System.out.print("Enter number of choice: ");
             try{
                 choice = Integer.parseInt(input.nextLine());
@@ -192,6 +196,25 @@ public class Main{
                         System.out.println("Logging out.\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
                         break;
 
+                    case 5:
+                        System.out.println("================== TRANSFER ==================");
+                        System.out.printf("Current Balance: %.2f%n", balance.getCurrentBalance(accountNum));
+                        System.out.print("Enter account number to transfer: ");
+                        transferToAccountNum = Integer.parseInt(input.nextLine());
+                        if(login.retrieveAccount(transferToAccountNum) == null){
+                            System.out.println("Account does not exist.");
+                            break;
+                        }
+                        System.out.print("Enter amount to transfer: ");
+                        amount = Double.parseDouble(input.nextLine());
+                        if(amount > balance.getCurrentBalance(accountNum)){
+                            System.out.println("Transfer failed. Insufficient balance.");
+                            break;
+                        }
+                        transfer.amountTransfer(amount, transferToAccountNum);
+                        System.out.println("Transfer successful.");
+                        break;
+                        
                     default:
                         throw new ErrorHandler ("Please input number from 1-5 only.");
                 }
