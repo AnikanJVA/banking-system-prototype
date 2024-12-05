@@ -31,6 +31,16 @@ public class Balance{
         return total;
     }
 
+    public double allAmountTransfer(int accountNum){
+        Transfer transfer = new Transfer(accountNum);
+        ArrayList<Transaction> transferList = transfer.getTransferList();
+        double total = 0;
+        for (Transaction transaction : transferList) {
+            total += transaction.getAmount();
+        }
+        return total;
+    }
+
     public ArrayList<Account> computeBalance(){
         Login accountsListGetter = new Login();
         ArrayList<Account> accountList = accountsListGetter.getAllAccounts();
