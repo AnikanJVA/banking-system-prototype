@@ -247,24 +247,55 @@ public class runProgram extends JFrame{
     public void runCreditSelection(UserAccount useraccount){
         backgroundPanel.removeAll();
         mainContentPanel.removeAll();
+        actionTextLabel.setText("Credit");
+
+        JLabel accountNumberLabel = new JLabel("Account number: " + useraccount.getDebitAccountNum());
+        accountNumberLabel.setBounds(actionTextLabel.getX(), actionTextLabel.getY() + 50, 250, 30);
+        accountNumberLabel.setFont(new Font("Arial", Font.PLAIN, 20));
+        accountNumberLabel.setForeground(Color.WHITE);
+
+        JButton withdrawButton = new JButton("Withdraw");
+        withdrawButton.setBounds(130, 90, debit_credit_button_size.width, debit_credit_button_size.height);
+        withdrawButton.setFont(new Font("Arial", Font.PLAIN, 20));
+        withdrawButton.setBackground(Color.WHITE);
+        withdrawButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                runWithdraw(useraccount);
+            }
+        });
+
+        JButton BalancebButton = new JButton("Show Balance");
+        BalancebButton.setBounds(130, 210, debit_credit_button_size.width, debit_credit_button_size.height);
+        BalancebButton.setFont(new Font("Arial", Font.PLAIN, 20));
+        BalancebButton.setBackground(Color.WHITE);
+        BalancebButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                runBalace(useraccount);                
+            }
+        });
+
+        JButton paymentbButton = new JButton("Payment");
+        paymentbButton.setBounds(130, 150, debit_credit_button_size.width, debit_credit_button_size.height);
+        paymentbButton.setFont(new Font("Arial", Font.PLAIN, 20));
+        paymentbButton.setBackground(Color.WHITE);
+        paymentbButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                runPayment(useraccount);
+            }
+        });
         
-        // ____________________ ACTION TEXT ____________________
-        // Set setText()
-        // actionTextLabel.setText();
-        // _________________^^^ ACTION TEXT ^^^_________________
-
-        JButton button = new JButton("TEST BUTTON");
-        button.setBounds(130, 110, debit_credit_button_size.width, debit_credit_button_size.height);
-
-
-        // add tanan NEW COMPONENTS sa MAIN CONTENT PANEL para ma kita sa bagong window
-        // _____________________ NEW COMPOENENTS _____________________
-        mainContentPanel.add(button);
-        mainContentPanel.add(textBackgroundPanel);
+        mainContentPanel.add(withdrawButton);
+        mainContentPanel.add(paymentbButton);
+        mainContentPanel.add(BalancebButton);
         mainContentPanel.add(exitButton);
-        // __________________^^^ NEW COMPOENENTS ^^^__________________
+        mainContentPanel.add(textBackgroundPanel);
+        mainContentPanel.add(accountNumberLabel);   
 
         backgroundPanel.add(mainContentPanel);
+        
         repaint();
         setVisible(true);
     } 
@@ -355,19 +386,90 @@ public class runProgram extends JFrame{
     public void runWithdraw (UserAccount useraccount){
         backgroundPanel.removeAll();
         mainContentPanel.removeAll();
+        Balance balanceManager = new Balance();
+        Withdraw withdraw = new Withdraw(useraccount.getDebitAccountNum());
+
+        JLabel BalanceLabel = new JLabel("Current Balance: " + balanceManager.getCurrentBalance(useraccount.getDebitAccountNum()));
+        BalanceLabel.setBounds(actionTextLabel.getX() + 40, actionTextLabel.getY() + 50, 250, 30);
+        BalanceLabel.setFont(new Font("Arial", Font.PLAIN, 20));
+        BalanceLabel.setForeground(Color.WHITE);
+
+        JLabel AmountLabel = new JLabel("Enter amount to withdraw");
+        AmountLabel.setBounds(actionTextLabel.getX() + 40, actionTextLabel.getY() + 80, 250, 30);
+        AmountLabel.setFont(new Font("Arial", Font.PLAIN, 20));
+        AmountLabel.setForeground(Color.WHITE);
+
+        JTextField amounttTextField = new JTextField("Amount");
+        amounttTextField.setBounds(actionTextLabel.getX() + 40,  130, debit_credit_button_size.width + 90,48);
+        amounttTextField.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if(amounttTextField.getText().equals("Amount")){
+                    amounttTextField.setText("");
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if(amounttTextField.getText().equals("Amount") || amounttTextField.getText().isEmpty()){
+                    amounttTextField.setText("Amount");
+                }
+            }
+        });
         
-        // ____________________ ACTION TEXT ____________________
-        // Set setText()
-        // actionTextLabel.setText();
-        // _________________^^^ ACTION TEXT ^^^_________________
+        JLabel statusLabel = new JLabel("");
+        statusLabel.setBounds(actionTextLabel.getX() + 40, 250, 400, 30);
+        statusLabel.setFont(new Font("Arial", Font.PLAIN, 18));
+        statusLabel.setForeground(Color.WHITE);
+
+        JButton withdrawButton = new JButton("Withdraw");
+        withdrawButton.setBounds(160, 200, 300,42);
+        withdrawButton.setFont(new Font("Arial", Font.PLAIN, 20));
+        withdrawButton.setBackground(new Color(0x032F30));
+        withdrawButton.setForeground(Color.WHITE);
+        withdrawButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try{
+                    double amount = Double.parseDouble(amounttTextField.getText());
+                    if(amount <= 0){
+                        statusLabel.setText("Withdraw failed. Amount must be greater than 0.");
+                    }
+
+                    else if(amount > balanceManager.getCurrentBalance(useraccount.getDebitAccountNum())){
+                        statusLabel.setText("Withdraw failed. Balance exeeded");
+                    }
+                    else{
+                        withdraw.amountWithdraw(amount);
+                        statusLabel.setText("Withdraw successful.");
+                        amounttTextField.setText("");
+                        BalanceLabel.setText("Current Balance: " + balanceManager.getCurrentBalance(useraccount.getDebitAccountNum()));
+                    }
+                }
+                catch(Exception err){
+                    statusLabel.setText("Withdraw failed. Amount must be a number");
+                }
+            }
+        });
 
 
-        // add tanan NEW COMPONENTS sa MAIN CONTENT PANEL para ma kita sa bagong window
-        // _____________________ NEW COMPOENENTS _____________________
+        exitButton.setBounds(500, 250, exit_button_size.width, exit_button_size.height);
+        exitButton.setFont(new Font("Arial", Font.PLAIN, 20));
+        exitButton.setBackground(new Color(0x032F30));
+        exitButton.setForeground(Color.white);
+        exitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
+        mainContentPanel.add(statusLabel);
+        mainContentPanel.add(AmountLabel);
+        mainContentPanel.add(BalanceLabel);
+        mainContentPanel.add(amounttTextField);
+        mainContentPanel.add(withdrawButton);
         mainContentPanel.add(textBackgroundPanel);
         mainContentPanel.add(exitButton);
-        // __________________^^^ NEW COMPOENENTS ^^^__________________
-
         backgroundPanel.add(mainContentPanel);
         repaint();
         setVisible(true);
@@ -375,7 +477,7 @@ public class runProgram extends JFrame{
 
 
     // ========================= PAYMENT WINDOW =====================
-    public void runPayement(UserAccount useraccount){
+    public void runPayment(UserAccount useraccount){
         backgroundPanel.removeAll();
         mainContentPanel.removeAll();
         
