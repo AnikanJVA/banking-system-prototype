@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class runProgram extends JFrame{
@@ -26,6 +27,7 @@ public class runProgram extends JFrame{
     private JButton loginButton,
                     exitButton;
 
+    public DecimalFormat decimalFormat = new DecimalFormat();
     final Dimension top_bottom_border_size = new Dimension(640, 66);
     final Dimension background_size = new Dimension(640, 349);
     final Dimension login_form_size = new Dimension(326, 242);
@@ -35,6 +37,7 @@ public class runProgram extends JFrame{
 
     // ========================= LOGIN WINDOW =====================
     public runProgram(){
+        decimalFormat.setMaximumFractionDigits(2);
         setTitle("Banking System");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(640, 480);
@@ -256,7 +259,7 @@ public class runProgram extends JFrame{
         actionTextLabel.setText("Credit");
 
         JLabel accountNumberLabel = new JLabel("Account number: " + useraccount.getDebitAccountNum());
-        accountNumberLabel.setBounds(actionTextLabel.getX(), actionTextLabel.getY() + 50, 250, 30);
+        accountNumberLabel.setBounds(actionTextLabel.getX(), actionTextLabel.getY() + 50, mainContentPanel.getWidth(), 30);
         accountNumberLabel.setFont(new Font("Arial", Font.PLAIN, 20));
         accountNumberLabel.setForeground(Color.WHITE);
 
@@ -318,7 +321,7 @@ public class runProgram extends JFrame{
         // _________________^^^ ACTION TEXT ^^^_________________
 
         JLabel accountNumberLabel = new JLabel("Account number: " + useraccount.getDebitAccountNum());
-        accountNumberLabel.setBounds(actionTextLabel.getX(), actionTextLabel.getY() + 60, 250, 30);
+        accountNumberLabel.setBounds(actionTextLabel.getX(), actionTextLabel.getY() + 60, mainContentPanel.getWidth(), 30);
         accountNumberLabel.setFont(new Font("Arial", Font.PLAIN, 20));
         accountNumberLabel.setForeground(Color.WHITE);
 
@@ -393,6 +396,8 @@ public class runProgram extends JFrame{
     public void runWithdraw (UserAccount useraccount, String accountType){
         backgroundPanel.removeAll();
         mainContentPanel.removeAll();
+        actionTextLabel.setText("Withdraw");
+
         Balance balanceManager = new Balance();
         Withdraw withdraw;
         if(accountType.equals("c")){
@@ -404,10 +409,10 @@ public class runProgram extends JFrame{
 
         JLabel BalanceLabel = new JLabel();
         if(accountType.equals("c")){
-            BalanceLabel.setText("Current Balance to Pay: " + balanceManager.getCurrentBalance(useraccount.getCreditAccountNum()));
+            BalanceLabel.setText("Current Balance to Pay: " + decimalFormat.format(balanceManager.getCurrentBalance(useraccount.getCreditAccountNum())));
         }
         else{
-            BalanceLabel.setText("Current Balance: " + balanceManager.getCurrentBalance(useraccount.getDebitAccountNum()));
+            BalanceLabel.setText("Current Balance: " + decimalFormat.format(balanceManager.getCurrentBalance(useraccount.getDebitAccountNum())));
         }
         BalanceLabel.setBounds(actionTextLabel.getX() - 25, actionTextLabel.getY() + 50, 300, 30);
         BalanceLabel.setFont(new Font("Arial", Font.PLAIN, 20));
@@ -485,6 +490,7 @@ public class runProgram extends JFrame{
                 }
             }
         });
+
 
         mainContentPanel.add(statusLabel);
         mainContentPanel.add(AmountLabel);
@@ -596,8 +602,8 @@ public class runProgram extends JFrame{
 
     // ========================= DEBUG WINDOW =====================
     public void runDebug(){
-        Account credAcc = new Account();credAcc.setAccountNum(1122334455);credAcc.setBalance(1000000000.99);credAcc.setLimit(999999999);credAcc.setType("c");
-        Account debAcc = new Account();debAcc.setAccountNum(1122334455);debAcc.setBalance(1000000000.99);debAcc.setType("d");
+        Account credAcc = new Account();credAcc.setAccountNum(1122334455);credAcc.setBalance(1000000000.991234);credAcc.setLimit(9999999999999.00);credAcc.setType("c");
+        Account debAcc = new Account();debAcc.setAccountNum(1122334455);debAcc.setBalance(1000000000.99112);debAcc.setType("d");
         UserAccount debugAccount = new UserAccount(); debugAccount.setAccountID(9999999); debugAccount.setCreditAccount(credAcc); debugAccount.setCreditAccountNum(credAcc.getAccountNum()); debugAccount.setDebitAccount(debAcc); debugAccount.setDebitAccountNum(debAcc.getAccountNum());
         String accountType = "c";
 
@@ -652,7 +658,7 @@ public class runProgram extends JFrame{
             }
         });
 
-        JButton paymentWindowButton = new JButton("Payment Window");
+        JButton paymentWindowButton = new JButton("Payment");
         paymentWindowButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
