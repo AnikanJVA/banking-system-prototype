@@ -40,7 +40,7 @@ public class runProgram extends JFrame{
         setSize(640, 480);
         setResizable(false);
         setLocationRelativeTo(null);
-
+        
         topPanel = new JPanel();
         topPanel.setPreferredSize(top_bottom_border_size);
         topPanel.setBackground(new Color(0x032F30));
@@ -109,10 +109,15 @@ public class runProgram extends JFrame{
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                //=====debuger
+                if(usernameTextField.getText().equals("debug")){
+                    runDebug();
+                }
+                //=====debuger
                 Login login = new Login();
                 ArrayList<UserAccount> userAccountList = login.getAllUserAccounts();
                 for (UserAccount useraccount : userAccountList) {
-                    if(usernameTextField.getText().equalsIgnoreCase(useraccount.getUsername()) && passwordField.getText().equals(useraccount.getPassword())){
+                    if(usernameTextField.getText().trim().equalsIgnoreCase(useraccount.getUsername()) && passwordField.getText().equals(useraccount.getPassword())){
                         System.out.println("login success");
                         runPreSelect(useraccount);
                         break;
@@ -187,7 +192,7 @@ public class runProgram extends JFrame{
         mainContentPanel.setBackground(backgroundPanel.getBackground());
         mainContentPanel.setLayout(null);
         // _________________^^^ MAIN CONTENT PANEL ^^^_________________
-
+        
 
         add(topPanel, BorderLayout.NORTH);
         add(backgroundPanel, BorderLayout.CENTER);
@@ -245,6 +250,7 @@ public class runProgram extends JFrame{
 
     // ========================= CREDIT SELECTION WINDOW =====================
     public void runCreditSelection(UserAccount useraccount){
+        String accountType = "c";
         backgroundPanel.removeAll();
         mainContentPanel.removeAll();
         actionTextLabel.setText("Credit");
@@ -261,7 +267,7 @@ public class runProgram extends JFrame{
         withdrawButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                runWithdraw(useraccount);
+                runWithdraw(useraccount, accountType);
             }
         });
 
@@ -272,7 +278,7 @@ public class runProgram extends JFrame{
         BalancebButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                runBalace(useraccount);                
+                runBalance(useraccount, accountType);                
             }
         });
 
@@ -303,6 +309,7 @@ public class runProgram extends JFrame{
 
     // ========================= DEBIT SELECTION WINDOW =====================
     public void runDebitSelection(UserAccount useraccount){
+        String accountType = "d";
         backgroundPanel.removeAll();
         mainContentPanel.removeAll();
         
@@ -327,7 +334,7 @@ public class runProgram extends JFrame{
         withdrawButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                runWithdraw(useraccount);
+                runWithdraw(useraccount, accountType);
             }
         });
         buttonGridPanel.add(withdrawButton);
@@ -363,7 +370,7 @@ public class runProgram extends JFrame{
         showBalanceButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                runBalace(useraccount);
+                runBalance(useraccount, accountType);
             }
         });
         buttonGridPanel.add(showBalanceButton);
@@ -383,24 +390,36 @@ public class runProgram extends JFrame{
 
 
     // ========================= WITHDRAW WINDOW =====================
-    public void runWithdraw (UserAccount useraccount){
+    public void runWithdraw (UserAccount useraccount, String accountType){
         backgroundPanel.removeAll();
         mainContentPanel.removeAll();
         Balance balanceManager = new Balance();
-        Withdraw withdraw = new Withdraw(useraccount.getDebitAccountNum());
+        Withdraw withdraw;
+        if(accountType.equals("c")){
+            withdraw = new Withdraw(useraccount.getCreditAccountNum());
+        }
+        else{
+            withdraw = new Withdraw(useraccount.getDebitAccountNum());
+        }
 
-        JLabel BalanceLabel = new JLabel("Current Balance: " + balanceManager.getCurrentBalance(useraccount.getDebitAccountNum()));
-        BalanceLabel.setBounds(actionTextLabel.getX() + 40, actionTextLabel.getY() + 50, 250, 30);
+        JLabel BalanceLabel = new JLabel();
+        if(accountType.equals("c")){
+            BalanceLabel.setText("Current Balance to Pay: " + balanceManager.getCurrentBalance(useraccount.getCreditAccountNum()));
+        }
+        else{
+            BalanceLabel.setText("Current Balance: " + balanceManager.getCurrentBalance(useraccount.getDebitAccountNum()));
+        }
+        BalanceLabel.setBounds(actionTextLabel.getX() - 25, actionTextLabel.getY() + 50, 300, 30);
         BalanceLabel.setFont(new Font("Arial", Font.PLAIN, 20));
         BalanceLabel.setForeground(Color.WHITE);
 
         JLabel AmountLabel = new JLabel("Enter amount to withdraw");
-        AmountLabel.setBounds(actionTextLabel.getX() + 40, actionTextLabel.getY() + 80, 250, 30);
+        AmountLabel.setBounds(BalanceLabel.getX(), BalanceLabel.getY() + 30, 250, 30);
         AmountLabel.setFont(new Font("Arial", Font.PLAIN, 20));
         AmountLabel.setForeground(Color.WHITE);
 
         JTextField amounttTextField = new JTextField("Amount");
-        amounttTextField.setBounds(actionTextLabel.getX() + 40,  130, debit_credit_button_size.width + 90,48);
+        amounttTextField.setBounds(AmountLabel.getX(),  AmountLabel.getY() + 35 , debit_credit_button_size.width + 90,48);
         amounttTextField.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
@@ -418,12 +437,12 @@ public class runProgram extends JFrame{
         });
         
         JLabel statusLabel = new JLabel("");
-        statusLabel.setBounds(actionTextLabel.getX() + 40, 250, 400, 30);
+        statusLabel.setBounds(amounttTextField.getX(), amounttTextField.getY() + 115, 400, 30);
         statusLabel.setFont(new Font("Arial", Font.PLAIN, 18));
         statusLabel.setForeground(Color.WHITE);
 
         JButton withdrawButton = new JButton("Withdraw");
-        withdrawButton.setBounds(160, 200, 300,42);
+        withdrawButton.setBounds(amounttTextField.getX() + 70, amounttTextField.getY() + 60, 300,42);
         withdrawButton.setFont(new Font("Arial", Font.PLAIN, 20));
         withdrawButton.setBackground(new Color(0x032F30));
         withdrawButton.setForeground(Color.WHITE);
@@ -432,37 +451,41 @@ public class runProgram extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 try{
                     double amount = Double.parseDouble(amounttTextField.getText());
+                    double limit = useraccount.getCreditAccount().getLimit();
+
                     if(amount <= 0){
                         statusLabel.setText("Withdraw failed. Amount must be greater than 0.");
                     }
-
-                    else if(amount > balanceManager.getCurrentBalance(useraccount.getDebitAccountNum())){
-                        statusLabel.setText("Withdraw failed. Balance exeeded");
+                    else if(accountType.equalsIgnoreCase("c")){
+                        if(amount > limit || amount + balanceManager.getCurrentBalance(useraccount.getCreditAccountNum()) > limit){
+                            statusLabel.setText("Withdraw failed. Limit exeeded.");
+                            System.out.println("CURRENT TYPE: " + accountType);
+                        }
+                        else{
+                            withdraw.amountWithdraw(amount);
+                            statusLabel.setText("Withdraw successful.");
+                            amounttTextField.setText("");
+                            System.exit(0);
+                        }
                     }
-                    else{
-                        withdraw.amountWithdraw(amount);
-                        statusLabel.setText("Withdraw successful.");
-                        amounttTextField.setText("");
-                        BalanceLabel.setText("Current Balance: " + balanceManager.getCurrentBalance(useraccount.getDebitAccountNum()));
+                    else if(accountType.equalsIgnoreCase("d")){
+                        if(amount > balanceManager.getCurrentBalance(useraccount.getDebitAccountNum())){
+                            statusLabel.setText("Withdraw failed. Balance exeeded.");
+                        }
+                        else{
+                            withdraw.amountWithdraw(amount);
+                            statusLabel.setText("Withdraw successful.");
+                            amounttTextField.setText("");
+                            System.exit(0);
+                        }
                     }
                 }
                 catch(Exception err){
-                    statusLabel.setText("Withdraw failed. Amount must be a number");
+                    statusLabel.setText("Withdraw failed. Amount must be a number.");
                 }
             }
         });
 
-
-        exitButton.setBounds(500, 250, exit_button_size.width, exit_button_size.height);
-        exitButton.setFont(new Font("Arial", Font.PLAIN, 20));
-        exitButton.setBackground(new Color(0x032F30));
-        exitButton.setForeground(Color.white);
-        exitButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0);
-            }
-        });
         mainContentPanel.add(statusLabel);
         mainContentPanel.add(AmountLabel);
         mainContentPanel.add(BalanceLabel);
@@ -483,7 +506,7 @@ public class runProgram extends JFrame{
         
         // ____________________ ACTION TEXT ____________________
         // Set setText()
-        // actionTextLabel.setText();
+        actionTextLabel.setText("Payment");
         // _________________^^^ ACTION TEXT ^^^_________________
 
 
@@ -506,7 +529,7 @@ public class runProgram extends JFrame{
         
         // ____________________ ACTION TEXT ____________________
         // Set setText()
-        // actionTextLabel.setText();
+        actionTextLabel.setText("Deposit");
         // _________________^^^ ACTION TEXT ^^^_________________
 
 
@@ -529,7 +552,7 @@ public class runProgram extends JFrame{
         
         // ____________________ ACTION TEXT ____________________
         // Set setText()
-        // actionTextLabel.setText();
+        actionTextLabel.setText("Transfer");
         // _________________^^^ ACTION TEXT ^^^_________________
 
 
@@ -546,7 +569,7 @@ public class runProgram extends JFrame{
 
 
     // ========================= BALANCE WINDOW =====================
-    public void runBalace (UserAccount useraccount){ 
+    public void runBalance (UserAccount useraccount, String accountType){ 
         backgroundPanel.removeAll();
         mainContentPanel.removeAll();
 
@@ -556,7 +579,7 @@ public class runProgram extends JFrame{
         
         // ____________________ ACTION TEXT ____________________
         // Set setText()
-        // actionTextLabel.setText();
+        actionTextLabel.setText("Balance");
         // _________________^^^ ACTION TEXT ^^^_________________
 
 
@@ -569,5 +592,111 @@ public class runProgram extends JFrame{
         backgroundPanel.add(mainContentPanel);
         repaint();
         setVisible(true);
+    }
+
+    // ========================= DEBUG WINDOW =====================
+    public void runDebug(){
+        Account credAcc = new Account();credAcc.setAccountNum(1122334455);credAcc.setBalance(1000000000.99);credAcc.setLimit(999999999);credAcc.setType("c");
+        Account debAcc = new Account();debAcc.setAccountNum(1122334455);debAcc.setBalance(1000000000.99);debAcc.setType("d");
+        UserAccount debugAccount = new UserAccount(); debugAccount.setAccountID(9999999); debugAccount.setCreditAccount(credAcc); debugAccount.setCreditAccountNum(credAcc.getAccountNum()); debugAccount.setDebitAccount(debAcc); debugAccount.setDebitAccountNum(debAcc.getAccountNum());
+        String accountType = "c";
+
+        JFrame debugFrame = new JFrame("Debug window");
+        debugFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        debugFrame.setSize(login_form_size);
+        debugFrame.setLayout(new GridLayout(3, 3, 2, 2));
+        debugFrame.setResizable(false);
+        debugFrame.setLocationRelativeTo(null);
+
+        JButton loginWindowButton = new JButton("Login");
+        loginWindowButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new runProgram();
+            }
+        });
+
+        JButton preSelectWindowButton = new JButton("Pre Select");
+        preSelectWindowButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                backgroundPanel.removeAll();
+                runPreSelect(debugAccount);
+            }
+        });
+
+        JButton cSelectWindowButton = new JButton("C Select");
+        cSelectWindowButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                backgroundPanel.removeAll();
+                runCreditSelection(debugAccount);
+            }
+        });
+
+        JButton dSelectWindowButton = new JButton("D Select");
+        dSelectWindowButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                backgroundPanel.removeAll();
+                runDebitSelection(debugAccount);
+            }
+        });
+
+        JButton withdrawWindowButton = new JButton("Withdraw");
+        withdrawWindowButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                backgroundPanel.removeAll();
+                runWithdraw(debugAccount, accountType);
+            }
+        });
+
+        JButton paymentWindowButton = new JButton("Payment Window");
+        paymentWindowButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                backgroundPanel.removeAll();
+                runPayment(debugAccount);
+            }
+        });
+
+        JButton depositWindowButton = new JButton("Deposit");
+        depositWindowButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                backgroundPanel.removeAll();
+                runDeposit(debugAccount);
+            }
+        });
+        
+        JButton transferWindowButton = new JButton("Transfer");
+        transferWindowButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                backgroundPanel.removeAll();
+                runTransfer(debugAccount);
+            }
+        });
+
+        JButton balanceWindowButton = new JButton("Balance");
+        balanceWindowButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                backgroundPanel.removeAll();
+                runBalance(debugAccount, accountType);
+            }
+        });
+
+        debugFrame.add(loginWindowButton);
+        debugFrame.add(preSelectWindowButton);
+        debugFrame.add(cSelectWindowButton);
+        debugFrame.add(dSelectWindowButton);
+        debugFrame.add(withdrawWindowButton);
+        debugFrame.add(paymentWindowButton);
+        debugFrame.add(depositWindowButton);
+        debugFrame.add(transferWindowButton);
+        debugFrame.add(balanceWindowButton);
+        debugFrame.setVisible(true);
     }
 }
