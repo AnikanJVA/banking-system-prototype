@@ -11,21 +11,14 @@ public class runProgram extends JFrame{
     private JPanel backgroundPanel,
                    topPanel, 
                    bottomPanel, 
-                   loginFormPanel, 
-                   loginFormTopPadding, 
-                   loginFormBottomPadding, 
-                   loginFormLeftPadding, 
-                   loginFormRightPadding,
                    mainContentPanel,
                    textBackgroundPanel;
 
-    private JLabel title,
-                   actionTextLabel;
+    private JLabel actionTextLabel;
 
-    private JTextField usernameTextField;
-    private JPasswordField passwordField;
-    private JButton loginButton,
-                    exitButton;
+    private JButton exitButton;
+
+    private JDialog conformationDialog;
 
     public DecimalFormat decimalFormat = new DecimalFormat();
     final Dimension top_bottom_border_size = new Dimension(640, 66);
@@ -35,7 +28,7 @@ public class runProgram extends JFrame{
     final Dimension debit_credit_button_size = new Dimension(350, 42);
     final Dimension exit_button_size = new Dimension(100, 40);
 
-    // ========================= LOGIN WINDOW =====================
+    // ========================= MAIN FRAME =====================
     public runProgram(){
         decimalFormat.setMaximumFractionDigits(2);
         setTitle("Banking System");
@@ -89,13 +82,17 @@ public class runProgram extends JFrame{
 
 
         // ____________________ MAIN CONTENT PANEL ____________________
-        // Magbutang bago panel para ma change ang layout sa mga shit
         mainContentPanel = new JPanel();
         mainContentPanel.setSize(background_size);
         mainContentPanel.setBackground(backgroundPanel.getBackground());
         mainContentPanel.setLayout(null);
         // _________________^^^ MAIN CONTENT PANEL ^^^_________________
-        
+
+
+        // __________________ CONFORMATION DIALOG WINDOW __________________
+        conformationDialog = new JDialog();
+        // _______________^^^ CONFORMATION DIALOG WINDOW ^^^_______________
+
 
         add(topPanel, BorderLayout.NORTH);
         add(backgroundPanel, BorderLayout.CENTER);
@@ -103,6 +100,8 @@ public class runProgram extends JFrame{
         setVisible(true);
         runLogin();
     }
+    // ========================= MAIN FRAME =====================
+
 
     // ========================= LOGIN WINDOW =========================  
     public void runLogin(){
@@ -113,17 +112,17 @@ public class runProgram extends JFrame{
         loginPanel.setBackground(backgroundPanel.getBackground());
         loginPanel.setLayout(new BorderLayout());
 
-        loginFormPanel = new JPanel();
+        JPanel loginFormPanel = new JPanel();
         loginFormPanel.setPreferredSize(login_form_size);
         loginFormPanel.setBackground(Color.WHITE);
         loginFormPanel.setLayout(null);
 
-        title = new JLabel("Banking System");
+        JLabel title = new JLabel("Banking System");
         title.setBounds(40, 10, 640, 50);
         title.setFont(new Font("Arial", Font.BOLD, 30));
         loginFormPanel.add(title);
 
-        usernameTextField = new JTextField("Username");
+        JTextField usernameTextField = new JTextField("Username");
         usernameTextField.setBounds(20, title.getY() + 55, 267, 28);
         usernameTextField.addFocusListener(new FocusListener() {
             @Override
@@ -142,7 +141,7 @@ public class runProgram extends JFrame{
         });
         loginFormPanel.add(usernameTextField);
 
-        passwordField = new JPasswordField("Password");
+        JPasswordField passwordField = new JPasswordField("Password");
         passwordField.setEchoChar((char) 0);
         passwordField.setBounds(20, usernameTextField.getY() + 40, 267, 28);
         passwordField.addFocusListener(new FocusListener() {
@@ -164,7 +163,7 @@ public class runProgram extends JFrame{
         });
         loginFormPanel.add(passwordField);
 
-        loginButton = new JButton("Login");
+        JButton loginButton = new JButton("Login");
         loginButton.setBackground(new Color(0x0C969C));
         loginButton.setBounds(passwordField.getX(), passwordField.getY() + 41, passwordField.getWidth(), 30);
         loginButton.setFont(new Font("Arial", Font.PLAIN, 10));
@@ -193,19 +192,19 @@ public class runProgram extends JFrame{
         });
         loginFormPanel.add(loginButton);
 
-        loginFormTopPadding = new JPanel();
+        JPanel loginFormTopPadding = new JPanel();
         loginFormTopPadding.setPreferredSize(new Dimension(213, 54));
         loginFormTopPadding.setBackground(backgroundPanel.getBackground());
 
-        loginFormBottomPadding = new JPanel();
+        JPanel loginFormBottomPadding = new JPanel();
         loginFormBottomPadding.setPreferredSize(new Dimension(213, 54));
         loginFormBottomPadding.setBackground(backgroundPanel.getBackground());
 
-        loginFormLeftPadding = new JPanel();
+        JPanel loginFormLeftPadding = new JPanel();
         loginFormLeftPadding.setPreferredSize(new Dimension(157, 349));
         loginFormLeftPadding.setBackground(backgroundPanel.getBackground());
 
-        loginFormRightPadding = new JPanel();
+        JPanel loginFormRightPadding = new JPanel();
         loginFormRightPadding.setPreferredSize(new Dimension(157, 349));
         loginFormRightPadding.setBackground(backgroundPanel.getBackground());
 
@@ -219,17 +218,15 @@ public class runProgram extends JFrame{
         repaint();
         setVisible(true);
     }
+    // ========================= LOGIN WINDOW =========================  
 
 
     // ========================= PRESELECT WINDOW =========================  
     public void runPreSelect(UserAccount useraccount){
         backgroundPanel.removeAll();
         mainContentPanel.removeAll();
-        // change ang sulod sa setText() according action na buhaton, basta sunda ang sa figma nga design.
-        // kani man tung rectangle nga naay text sa top left
-        // ____________________ ACTION TEXT ____________________
+        
         actionTextLabel.setText("Choose Transaction");
-        // _________________^^^ ACTION TEXT ^^^_________________
 
 
         JButton debitButton = new JButton("Debit");
@@ -255,18 +252,16 @@ public class runProgram extends JFrame{
         });
 
 
-        // add tanan NEW COMPONENTS sa MAIN CONTENT PANEL para ma kita sa bagong window
-        // _____________________ NEW COMPOENENTS _____________________
         mainContentPanel.add(textBackgroundPanel);
         mainContentPanel.add(exitButton);
         mainContentPanel.add(debitButton);
         mainContentPanel.add(creditButton);
-        // __________________^^^ NEW COMPOENENTS ^^^__________________
 
         backgroundPanel.add(mainContentPanel);
         repaint();
         setVisible(true);
     }
+    // ========================= PRESELECT WINDOW =========================  
 
 
     // ========================= CREDIT SELECTION WINDOW =====================
@@ -325,6 +320,7 @@ public class runProgram extends JFrame{
         repaint();
         setVisible(true);
     } 
+    // ========================= CREDIT SELECTION WINDOW =====================
 
 
     // ========================= DEBIT SELECTION WINDOW =====================
@@ -333,9 +329,7 @@ public class runProgram extends JFrame{
         backgroundPanel.removeAll();
         mainContentPanel.removeAll();
         
-        // ____________________ ACTION TEXT ____________________
         actionTextLabel.setText("Debit");
-        // _________________^^^ ACTION TEXT ^^^_________________
 
         JLabel accountNumberLabel = new JLabel("Account number: " + useraccount.getDebitAccountNum());
         accountNumberLabel.setBounds(actionTextLabel.getX() - 10, actionTextLabel.getY() + 60, mainContentPanel.getWidth(), 30);
@@ -395,18 +389,16 @@ public class runProgram extends JFrame{
         });
         buttonGridPanel.add(showBalanceButton);
 
-        // add tanan NEW COMPONENTS sa MAIN CONTENT PANEL para ma kita sa bagong window
-        // _____________________ NEW COMPOENENTS _____________________
         mainContentPanel.add(textBackgroundPanel);
         mainContentPanel.add(exitButton);
         mainContentPanel.add(accountNumberLabel);
         mainContentPanel.add(buttonGridPanel);
-        // __________________^^^ NEW COMPOENENTS ^^^__________________
 
         backgroundPanel.add(mainContentPanel);
         repaint();
         setVisible(true);
     } 
+    // ========================= DEBIT SELECTION WINDOW =====================
 
 
     // ========================= WITHDRAW WINDOW =====================
@@ -426,7 +418,7 @@ public class runProgram extends JFrame{
 
         JLabel BalanceLabel = new JLabel();
         if(accountType.equals("c")){
-            BalanceLabel.setText("Current Balance to Pay: " + decimalFormat.format(balanceManager.getCurrentBalance(useraccount.getCreditAccountNum())));
+            BalanceLabel.setText("Outstanding Balance: " + decimalFormat.format(balanceManager.getCurrentBalance(useraccount.getCreditAccountNum())));
         }
         else{
             BalanceLabel.setText("Current Balance: " + decimalFormat.format(balanceManager.getCurrentBalance(useraccount.getDebitAccountNum())));
@@ -481,7 +473,6 @@ public class runProgram extends JFrame{
                     else if(accountType.equalsIgnoreCase("c")){
                         if(amount > limit || amount + balanceManager.getCurrentBalance(useraccount.getCreditAccountNum()) > limit){
                             statusLabel.setText("Withdraw failed. Limit exeeded.");
-                            System.out.println("CURRENT TYPE: " + accountType);
                         }
                         else{
                             withdraw.amountWithdraw(amount);
@@ -520,29 +511,105 @@ public class runProgram extends JFrame{
         repaint();
         setVisible(true);
     } 
+    // ========================= WITHDRAW WINDOW =====================
 
 
     // ========================= PAYMENT WINDOW =====================
     public void runPayment(UserAccount useraccount){
         backgroundPanel.removeAll();
         mainContentPanel.removeAll();
-        
-        // ____________________ ACTION TEXT ____________________
-        // Set setText()
+        Balance balanceManager = new Balance();
+
         actionTextLabel.setText("Payment");
-        // _________________^^^ ACTION TEXT ^^^_________________
 
+        JLabel BalanceLabel = new JLabel();
+        BalanceLabel.setText("Outstanding Balance: " + decimalFormat.format(balanceManager.getCurrentBalance(useraccount.getCreditAccountNum())));
+        BalanceLabel.setBounds(actionTextLabel.getX() - 25, actionTextLabel.getY() + 50, 300, 30);
+        BalanceLabel.setFont(new Font("Arial", Font.PLAIN, 20));
+        BalanceLabel.setForeground(Color.WHITE);
 
-        // add tanan NEW COMPONENTS sa MAIN CONTENT PANEL para ma kita sa bagong window
-        // _____________________ NEW COMPOENENTS _____________________
+        JLabel limitLabel = new JLabel();
+        limitLabel.setText("Account Limit: " + decimalFormat.format(useraccount.getCreditAccount().getLimit()));
+        limitLabel.setBounds(BalanceLabel.getX(), BalanceLabel.getY() + 23, 300, 30);
+        limitLabel.setFont(new Font("Arial", Font.PLAIN, 20));
+        limitLabel.setForeground(Color.WHITE);
+
+        JLabel AmountLabel = new JLabel("Enter amount to pay");
+        AmountLabel.setBounds(limitLabel.getX(), limitLabel.getY() + 35, 300, 30);
+        AmountLabel.setFont(new Font("Arial", Font.PLAIN, 20));
+        AmountLabel.setForeground(Color.WHITE);
+
+        JTextField amounttTextField = new JTextField("Amount");
+        amounttTextField.setBounds(AmountLabel.getX(),  AmountLabel.getY() + 35 , debit_credit_button_size.width + 90,48);
+        amounttTextField.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if(amounttTextField.getText().equals("Amount")){
+                    amounttTextField.setText("");
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if(amounttTextField.getText().equals("Amount") || amounttTextField.getText().isEmpty()){
+                    amounttTextField.setText("Amount");
+                }
+            }
+        });
+        
+        JLabel statusLabel = new JLabel("");
+        statusLabel.setBounds(amounttTextField.getX(), amounttTextField.getY() + 115, 400, 30);
+        statusLabel.setFont(new Font("Arial", Font.PLAIN, 18));
+        statusLabel.setForeground(Color.WHITE);
+
+        JButton paymentButton = new JButton("Pay");
+        paymentButton.setBounds(amounttTextField.getX() + 70, amounttTextField.getY() + 60, 300,42);
+        paymentButton.setFont(new Font("Arial", Font.PLAIN, 20));
+        paymentButton.setBackground(new Color(0x032F30));
+        paymentButton.setForeground(Color.WHITE);
+        paymentButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try{
+                    double amount = Double.parseDouble(amounttTextField.getText());
+                    double limit = useraccount.getCreditAccount().getLimit();
+                    Payment payment = new Payment(useraccount.getCreditAccountNum());
+
+                    if(amount <= 0){
+                        statusLabel.setText("Payment failed. Amount must be greater than 0.");
+                    }
+
+                    else if(amount > limit || amount > balanceManager.getCurrentBalance(useraccount.getCreditAccountNum())){
+                        statusLabel.setText("Payment failed. Overpayment not allowed.");
+                    }
+                    
+                    else{
+                        payment.amountPayment(amount);
+                        statusLabel.setText("Payment successful.");
+                        // amounttTextField.setText("");
+                        // runLogin();
+                    }
+                }
+                catch(Exception err){
+                    statusLabel.setText("Payment failed. Amount must be a number.");
+                }
+            }
+        });
+
+        mainContentPanel.add(statusLabel);
+        mainContentPanel.add(AmountLabel);
+        mainContentPanel.add(limitLabel);
+        mainContentPanel.add(BalanceLabel);
+        mainContentPanel.add(amounttTextField);
+        mainContentPanel.add(paymentButton);
         mainContentPanel.add(textBackgroundPanel);
         mainContentPanel.add(exitButton);
-        // __________________^^^ NEW COMPOENENTS ^^^__________________
-
+        backgroundPanel.add(mainContentPanel);
         backgroundPanel.add(mainContentPanel);
         repaint();
         setVisible(true);
     } 
+    // ========================= PAYMENT WINDOW =====================
 
 
     // ========================= DEPOSIT WINDOW =====================
@@ -612,8 +679,6 @@ public class runProgram extends JFrame{
             }
         });
 
-        // add tanan NEW COMPONENTS sa MAIN CONTENT PANEL para ma kita sa bagong window
-        // _____________________ NEW COMPOENENTS _____________________
         mainContentPanel.add(statusLabel);
         mainContentPanel.add(AmountLabel);
         mainContentPanel.add(BalanceLabel);
@@ -622,12 +687,12 @@ public class runProgram extends JFrame{
         mainContentPanel.add(textBackgroundPanel);
         mainContentPanel.add(exitButton);
         backgroundPanel.add(mainContentPanel);
-        // __________________^^^ NEW COMPOENENTS ^^^__________________
 
         backgroundPanel.add(mainContentPanel);
         repaint();
         setVisible(true);
     } 
+    // ========================= DEPOSIT WINDOW =====================
 
 
     // ========================= TRANSFER WINDOW =====================
@@ -715,37 +780,72 @@ public class runProgram extends JFrame{
         repaint();
         setVisible(true);
     } 
+    // ========================= TRANSFER WINDOW =====================
 
 
     // ========================= BALANCE WINDOW =====================
     public void runBalance (UserAccount useraccount, String accountType){ 
         backgroundPanel.removeAll();
         mainContentPanel.removeAll();
-
-        // TO DO: 
-        //  add condition para mag check sa acconunt type 
-        //  para mu display ug limit kung credit account 
-        
-        // ____________________ ACTION TEXT ____________________
-        // Set setText()
         actionTextLabel.setText("Balance");
-        // _________________^^^ ACTION TEXT ^^^_________________
+
+        Balance balanceManager = new Balance();
+        JLabel BalanceLabel = new JLabel();
+        BalanceLabel.setBounds(actionTextLabel.getX() - 8, actionTextLabel.getY() + 50, 300, 30);
+        BalanceLabel.setFont(new Font("Arial", Font.PLAIN, 20));
+        BalanceLabel.setForeground(Color.WHITE);
+
+        JLabel AccounJLabel = new JLabel("");
+        AccounJLabel.setBounds(BalanceLabel.getX(),  BalanceLabel.getY() + 35, debit_credit_button_size.width + 90,20);
+        AccounJLabel.setFont(new Font("Arial", Font.PLAIN, 20));
+        AccounJLabel.setForeground(Color.WHITE);
+
+        JLabel Acc_LimitJLabel = new JLabel("");
+        Acc_LimitJLabel.setBounds(BalanceLabel.getX(),  AccounJLabel.getY() + 35, debit_credit_button_size.width + 90,20);
+        Acc_LimitJLabel.setFont(new Font("Arial", Font.PLAIN, 20));
+        Acc_LimitJLabel.setForeground(Color.WHITE);
+
+        JButton BalanceButton = new JButton("");
+        BalanceButton.setBounds(Acc_LimitJLabel.getX(), Acc_LimitJLabel.getY() + 40, 300,42);
+        BalanceButton.setFont(new Font("Arial", Font.PLAIN, 20));
+        BalanceButton.setBackground(Color.WHITE);
+        BalanceButton.setForeground(Color.BLACK);
+        BalanceButton.setEnabled(false);
+        BalanceButton.setHorizontalAlignment(SwingConstants.LEFT);
+
+        if(accountType.equals("c")){
+            BalanceLabel.setText("Credit Account");
+            AccounJLabel.setText("Account Number: " + useraccount.getCreditAccountNum());
+            Acc_LimitJLabel.setText(String.format("Account Limit: %.2f", useraccount.getCreditAccount().getLimit()));
+            BalanceButton.setText(String.format("Current Balance: %.2f",balanceManager.getCurrentBalance(useraccount.getCreditAccountNum())));
+        }
+        else{
+            BalanceLabel.setText("Debit Account");
+            AccounJLabel.setText("Account Number: " + useraccount.getDebitAccountNum());
+            AccounJLabel.setBounds(BalanceLabel.getX(),BalanceLabel.getY()+65,300, 42);
+            BalanceButton.setText(String.format("Current Balance: %.2f",balanceManager.getCurrentBalance(useraccount.getDebitAccountNum())));
+            
+        }   
 
 
-        // add tanan NEW COMPONENTS sa MAIN CONTENT PANEL para ma kita sa bagong window
-        // _____________________ NEW COMPOENENTS _____________________
+        mainContentPanel.add(BalanceButton);   
+        mainContentPanel.add(BalanceLabel);
+        mainContentPanel.add(AccounJLabel);
+        mainContentPanel.add(Acc_LimitJLabel);
         mainContentPanel.add(textBackgroundPanel);
         mainContentPanel.add(exitButton);
-        // __________________^^^ NEW COMPOENENTS ^^^__________________
 
         backgroundPanel.add(mainContentPanel);
         repaint();
         setVisible(true);
     }
 
+    // ========================= BALANCE WINDOW =====================
+
+
     // ========================= DEBUG WINDOW =====================
     public void runDebug(){
-        Account credAcc = new Account();credAcc.setAccountNum(1122334455);credAcc.setBalance(1000000000.99);credAcc.setLimit(9999999999999.00);credAcc.setType("c");
+        Account credAcc = new Account();credAcc.setAccountNum(1122334455);credAcc.setBalance(1000000000.99);credAcc.setLimit(9999999999999.99);credAcc.setType("c");
         Account debAcc = new Account();debAcc.setAccountNum(1122334455);debAcc.setBalance(1000000000.99);debAcc.setType("d");
         UserAccount debugAccount = new UserAccount(); debugAccount.setAccountID(9999999); debugAccount.setCreditAccount(credAcc); debugAccount.setCreditAccountNum(credAcc.getAccountNum()); debugAccount.setDebitAccount(debAcc); debugAccount.setDebitAccountNum(debAcc.getAccountNum());
         String accountType = "c";
@@ -848,4 +948,6 @@ public class runProgram extends JFrame{
         debugFrame.add(balanceWindowButton);
         debugFrame.setVisible(true);
     }
+    // ========================= DEBUG WINDOW =====================
+
 }
