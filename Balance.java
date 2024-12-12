@@ -54,7 +54,8 @@ public class Balance{
                 continue;
             }
             else{
-                currentBalance = allAmountWithdraw(account.getAccountNum()) - allAmountPayment(account.getAccountNum());
+                currentBalance = allAmountWithdraw(account.getAccountNum()) + allAmountTransfer(account.getAccountNum());
+                currentBalance -= allAmountPayment(account.getAccountNum());
                 account.setBalance(currentBalance);
             }
         }
