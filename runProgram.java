@@ -411,7 +411,7 @@ public class runProgram extends JFrame{
         else{
             BalanceLabel.setText("Current Balance: " + decimalFormat.format(balanceManager.getCurrentBalance(account.getAccountNum())));
         }
-        BalanceLabel.setBounds(actionTextLabel.getX() - 25, actionTextLabel.getY() + 50, 300, 30);
+        BalanceLabel.setBounds(textBackgroundPanel.getX() + 92, textBackgroundPanel.getY() + 65, 300, 30);
         BalanceLabel.setFont(new Font("Arial", Font.PLAIN, 20));
         BalanceLabel.setForeground(Color.WHITE);
 
@@ -511,17 +511,17 @@ public class runProgram extends JFrame{
 
         JLabel BalanceLabel = new JLabel();
         BalanceLabel.setText("Outstanding Balance: " + decimalFormat.format(balanceManager.getCurrentBalance(account.getAccountNum())));
-        BalanceLabel.setBounds(actionTextLabel.getX() - 25, actionTextLabel.getY() + 50, 300, 30);
+        BalanceLabel.setBounds(textBackgroundPanel.getX() + 92, textBackgroundPanel.getY() + 45, 300, 30);
         BalanceLabel.setFont(new Font("Arial", Font.PLAIN, 20));
         BalanceLabel.setForeground(Color.WHITE);
 
         JLabel amountJLabel = new JLabel("Enter Amount");
-        amountJLabel.setBounds(BalanceLabel.getX(),  BalanceLabel.getY() + 25, debit_credit_button_size.width + 90,20);
+        amountJLabel.setBounds(BalanceLabel.getX(),  BalanceLabel.getY() + 28, debit_credit_button_size.width + 90,20);
         amountJLabel.setFont(new Font("Arial", Font.PLAIN, 20));
         amountJLabel.setForeground(Color.WHITE);
 
         JTextField amounttTextField = new JTextField("Amount");
-        amounttTextField.setBounds(BalanceLabel.getX(),  BalanceLabel.getY() + 50 , debit_credit_button_size.width + 90,30); 
+        amounttTextField.setBounds(BalanceLabel.getX(),  BalanceLabel.getY() + 50 , debit_credit_button_size.width + 90, 40); 
         amounttTextField.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
@@ -539,12 +539,12 @@ public class runProgram extends JFrame{
         });
 
         JLabel paymentLabel = new JLabel("Payment from");
-        paymentLabel.setBounds(BalanceLabel.getX(),  amounttTextField.getY() + 35, debit_credit_button_size.width + 90,20);
+        paymentLabel.setBounds(BalanceLabel.getX(),  amounttTextField.getY() + 45, debit_credit_button_size.width + 90,20);
         paymentLabel.setFont(new Font("Arial", Font.PLAIN, 20));
         paymentLabel.setForeground(Color.WHITE);
 
         JTextField accountNumberTextField = new JTextField("Account Number");
-        accountNumberTextField.setBounds(BalanceLabel.getX(),  paymentLabel.getY() + 25 , debit_credit_button_size.width + 90,30); 
+        accountNumberTextField.setBounds(BalanceLabel.getX(),  paymentLabel.getY() + 25 , debit_credit_button_size.width + 90,40); 
         accountNumberTextField.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
@@ -563,12 +563,12 @@ public class runProgram extends JFrame{
         });
 
         JLabel statusLabel = new JLabel();
-        statusLabel.setBounds(amounttTextField.getX(), amounttTextField.getY() + 145, 400, 30);
+        statusLabel.setBounds(amounttTextField.getX(), amounttTextField.getY() + 163, 400, 30);
         statusLabel.setFont(new Font("Arial", Font.PLAIN, 18));
         statusLabel.setForeground(Color.WHITE);
 
         JButton paymentButton = new JButton("Pay");
-        paymentButton.setBounds(accountNumberTextField.getX() + 70, accountNumberTextField.getY() + 40, 300,30);
+        paymentButton.setBounds(accountNumberTextField.getX() + 70, accountNumberTextField.getY() + 50, 300 ,42);
         paymentButton.setFont(new Font("Arial", Font.PLAIN, 20));
         paymentButton.setBackground(new Color(0x032F30));
         paymentButton.setForeground(Color.WHITE);
@@ -654,17 +654,17 @@ public class runProgram extends JFrame{
 
         JLabel BalanceLabel = new JLabel();
         BalanceLabel.setText("Current Balance: " + decimalFormat.format(balanceManager.getCurrentBalance(account.getAccountNum())));
-        BalanceLabel.setBounds(actionTextLabel.getX() - 35, actionTextLabel.getY() + 60, 300, 30);
+        BalanceLabel.setBounds(textBackgroundPanel.getX() + 92, textBackgroundPanel.getY() + 65, 300, 30);
         BalanceLabel.setFont(new Font("Arial", Font.PLAIN, 20));
         BalanceLabel.setForeground(Color.WHITE);
 
         JLabel AmountLabel = new JLabel("Enter amount to deposit");
-        AmountLabel.setBounds(BalanceLabel.getX(), BalanceLabel.getY() + 25, 250, 30);
+        AmountLabel.setBounds(BalanceLabel.getX(), BalanceLabel.getY() + 30, 250, 30);
         AmountLabel.setFont(new Font("Arial", Font.PLAIN, 20));
         AmountLabel.setForeground(Color.WHITE);
 
         JTextField amounttTextField = new JTextField("Amount");
-        amounttTextField.setBounds(AmountLabel.getX(),  AmountLabel.getY() + 40 , debit_credit_button_size.width + 90,48);
+        amounttTextField.setBounds(AmountLabel.getX(),  AmountLabel.getY() + 35 , debit_credit_button_size.width + 90,48);
         amounttTextField.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
@@ -687,7 +687,7 @@ public class runProgram extends JFrame{
         statusLabel.setForeground(Color.WHITE);
 
         JButton depositButton = new JButton("Deposit");
-        depositButton.setBounds(amounttTextField.getX() + 70, amounttTextField.getY() + 65, 300,42);
+        depositButton.setBounds(amounttTextField.getX() + 70, amounttTextField.getY() + 60, 300,42);
         depositButton.setFont(new Font("Arial", Font.PLAIN, 20));
         depositButton.setBackground(new Color(0x032F30));
         depositButton.setForeground(Color.WHITE);
@@ -743,7 +743,7 @@ public class runProgram extends JFrame{
         else{
             BalanceLabel.setText("Current Balance: " + decimalFormat.format(balanceManager.getCurrentBalance(account.getAccountNum())));
         }
-        BalanceLabel.setBounds(actionTextLabel.getX() - 25, actionTextLabel.getY() + 50, 300, 30);
+        BalanceLabel.setBounds(textBackgroundPanel.getX() + 92, textBackgroundPanel.getY() + 45, 300, 30);
         BalanceLabel.setFont(new Font("Arial", Font.PLAIN, 20));
         BalanceLabel.setForeground(Color.WHITE);
 
@@ -753,7 +753,7 @@ public class runProgram extends JFrame{
         amountJLabel.setForeground(Color.WHITE);
 
         JTextField amounttTextField = new JTextField("Amount");
-        amounttTextField.setBounds(BalanceLabel.getX(),  BalanceLabel.getY() + 50 , debit_credit_button_size.width + 90,30); 
+        amounttTextField.setBounds(BalanceLabel.getX(),  BalanceLabel.getY() + 50 , debit_credit_button_size.width + 90,40); 
         amounttTextField.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
@@ -771,12 +771,12 @@ public class runProgram extends JFrame{
         });
 
         JLabel transferToLabel = new JLabel("Transfer to");
-        transferToLabel.setBounds(BalanceLabel.getX(),  amounttTextField.getY() + 35, debit_credit_button_size.width + 90,20);
+        transferToLabel.setBounds(BalanceLabel.getX(),  amounttTextField.getY() + 45, debit_credit_button_size.width + 90,20);
         transferToLabel.setFont(new Font("Arial", Font.PLAIN, 20));
         transferToLabel.setForeground(Color.WHITE);
 
         JTextField accountJTextField = new JTextField("Account Number");
-        accountJTextField.setBounds(BalanceLabel.getX(),  transferToLabel.getY() + 25 , debit_credit_button_size.width + 90,30); 
+        accountJTextField.setBounds(BalanceLabel.getX(),  transferToLabel.getY() + 25 , debit_credit_button_size.width + 90,40); 
         accountJTextField.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
@@ -795,12 +795,12 @@ public class runProgram extends JFrame{
         });
 
         JLabel statusLabel = new JLabel();
-        statusLabel.setBounds(amounttTextField.getX(), amounttTextField.getY() + 145, 400, 30);
+        statusLabel.setBounds(amounttTextField.getX(), amounttTextField.getY() + 163, 400, 30);
         statusLabel.setFont(new Font("Arial", Font.PLAIN, 18));
         statusLabel.setForeground(Color.WHITE);
 
         JButton transferButton = new JButton("Transfer");
-        transferButton.setBounds(accountJTextField.getX() + 70, accountJTextField.getY() + 40, 300,30);
+        transferButton.setBounds(accountJTextField.getX() + 70, accountJTextField.getY() + 50, 300,42);
         transferButton.setFont(new Font("Arial", Font.PLAIN, 20));
         transferButton.setBackground(new Color(0x032F30));
         transferButton.setForeground(Color.WHITE);
@@ -899,7 +899,7 @@ public class runProgram extends JFrame{
         Balance balanceManager = new Balance();
 
         JLabel BalanceLabel = new JLabel();
-        BalanceLabel.setBounds(actionTextLabel.getX() - 8, actionTextLabel.getY() + 50, 300, 30);
+        BalanceLabel.setBounds(textBackgroundPanel.getX() + 92, textBackgroundPanel.getY() + 50, 300, 30);
         BalanceLabel.setFont(new Font("Arial", Font.BOLD, 20));
         BalanceLabel.setForeground(Color.WHITE);
 
@@ -914,7 +914,7 @@ public class runProgram extends JFrame{
         Acc_LimitJLabel.setForeground(Color.WHITE);
 
         JButton BalanceButton = new JButton("");
-        BalanceButton.setBounds(Acc_LimitJLabel.getX(), Acc_LimitJLabel.getY() + 40, 300,42);
+        BalanceButton.setBounds(Acc_LimitJLabel.getX(), Acc_LimitJLabel.getY() + 40, 440, 42);
         BalanceButton.setFont(new Font("Arial", Font.PLAIN, 20));
         BalanceButton.setBackground(Color.WHITE);
         BalanceButton.setForeground(Color.BLACK);

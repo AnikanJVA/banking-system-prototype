@@ -55,7 +55,6 @@ public class Balance{
             }
             if(account.getType().equals("c")){
                 currentBalance = account.getBalance() + allAmountWithdraw(account.getAccountNum()) + allAmountTransfer(account.getAccountNum());
-                System.out.println("account: " + account.getAccountNum() + "\nbalance: " + account.getBalance());
                 currentBalance -= allAmountPayment(account.getAccountNum());
                 account.setBalance(currentBalance);
             }
