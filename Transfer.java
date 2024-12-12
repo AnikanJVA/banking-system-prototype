@@ -31,9 +31,19 @@ public class Transfer{
         return transferList;
     }
 
-    public void amountTransfer(double amount, int accountNum){ 
-        Payment payment = new Payment(accountNum);
-        payment.amountPayment(amount);
+    public void amountTransfer(double amount, int receiverAccountNum, int senderAcountNum){ 
+        Login login = new Login();
+
+        if(login.retrieveAccountType(receiverAccountNum).equals("c")){
+            Payment payment = new Payment(receiverAccountNum);
+            payment.amountPayment(amount, senderAcountNum);
+        }
+        else{
+            Deposit deposit = new Deposit(receiverAccountNum);
+            deposit.amountDeposit(amount);
+        }
+        
+
         ArrayList<Transaction> transferList = getTransferList();
         FileWriter fw;
         BufferedWriter bw;
@@ -45,7 +55,7 @@ public class Transfer{
         try{
             fw = new FileWriter(transferFile, true);
             bw = new BufferedWriter(fw);
-            bw.write(transactionId + " " + amount + " " + accountNum  + "\n");
+            bw.write(transactionId + " " + amount + " " + receiverAccountNum  + "\n");
             bw.close();
         }
         catch(IOException e){

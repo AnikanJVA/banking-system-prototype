@@ -1,5 +1,5 @@
 public class Transaction{
-    private int transactionId, transferedTo;
+    private int transactionId, transferedTo, transferedFrom;
     private double amount;
 
     public void setTransactionId(int transactionId) {
@@ -14,6 +14,10 @@ public class Transaction{
         this.transferedTo = transferedTo;
     }
 
+    public void setTransferedFrom(int transferedFrom) {
+        this.transferedFrom = transferedFrom;
+    }
+
     public int getTransactionId() {
         return transactionId;
     }
@@ -24,5 +28,9 @@ public class Transaction{
 
     public int getTransferedTo() {
         return transferedTo;
+    }
+
+    public int getTransferedFrom() {
+        return transferedFrom;
     }
 }

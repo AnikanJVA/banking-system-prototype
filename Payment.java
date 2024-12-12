@@ -16,6 +16,7 @@ public class Payment{
                     Transaction transaction = new Transaction();
                     transaction.setTransactionId(scan.nextInt());
                     transaction.setAmount(scan.nextDouble());
+                    transaction.setTransferedFrom(scan.nextInt());
                     paymentList.add(transaction);
                 }
                 catch(Exception err){
@@ -30,7 +31,10 @@ public class Payment{
         return paymentList;
     }
 
-    public void amountPayment(double amount){
+    public void amountPayment(double amount, int payerAccountccountNum){
+        Withdraw withdraw = new Withdraw(payerAccountccountNum);
+        withdraw.amountWithdraw(amount);
+        
         ArrayList<Transaction> paymentList = getPaymentList();
         FileWriter fw;
         BufferedWriter bw;
@@ -42,7 +46,7 @@ public class Payment{
         try{
             fw = new FileWriter(paymentFile, true);
             bw = new BufferedWriter(fw);
-            bw.write(transactionId + " " + amount + "\n");
+            bw.write(transactionId + " " + amount + " " + payerAccountccountNum +"\n");
             bw.close();
         }
         catch(IOException e){
