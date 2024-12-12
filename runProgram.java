@@ -609,7 +609,7 @@ public class runProgram extends JFrame{
                         statusLabel.setText("Payment failed. Limit exeeded in payer account.");
                     }
                     else{
-                        payment.amountPayment(amount, payerAccountNum);
+                        payment.amountPayment(amount, payerAccountNum, false);
                         JOptionPane.showMessageDialog(backgroundPanel, "     Payment successful.", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
                         runLogin();
                     }

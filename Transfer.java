@@ -36,7 +36,7 @@ public class Transfer{
 
         if(login.retrieveAccountType(receiverAccountNum).equals("c")){
             Payment payment = new Payment(receiverAccountNum);
-            payment.amountPayment(amount, senderAcountNum);
+            payment.amountPayment(amount, senderAcountNum, true);
         }
         else{
             Deposit deposit = new Deposit(receiverAccountNum);

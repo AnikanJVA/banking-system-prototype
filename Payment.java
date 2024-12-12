@@ -31,10 +31,12 @@ public class Payment{
         return paymentList;
     }
 
-    public void amountPayment(double amount, int payerAccountccountNum){
-        Withdraw withdraw = new Withdraw(payerAccountccountNum);
-        withdraw.amountWithdraw(amount);
-        
+    public void amountPayment(double amount, int payerAccountccountNum, boolean isFromTransfer){
+        if(!isFromTransfer){
+            Withdraw withdraw = new Withdraw(payerAccountccountNum);
+            withdraw.amountWithdraw(amount);
+        }
+
         ArrayList<Transaction> paymentList = getPaymentList();
         FileWriter fw;
         BufferedWriter bw;
