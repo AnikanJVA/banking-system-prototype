@@ -515,10 +515,16 @@ public class runProgram extends JFrame{
         BalanceLabel.setFont(new Font("Arial", Font.PLAIN, 20));
         BalanceLabel.setForeground(Color.WHITE);
 
-        JLabel amountJLabel = new JLabel("Enter Amount");
-        amountJLabel.setBounds(BalanceLabel.getX(),  BalanceLabel.getY() + 25, debit_credit_button_size.width + 90,20);
-        amountJLabel.setFont(new Font("Arial", Font.PLAIN, 20));
-        amountJLabel.setForeground(Color.WHITE);
+        JLabel limitLabel = new JLabel();
+        limitLabel.setText("Account Limit: " + decimalFormat.format(account.getLimit()));
+        limitLabel.setBounds(BalanceLabel.getX(), BalanceLabel.getY() + 23, 300, 30);
+        limitLabel.setFont(new Font("Arial", Font.PLAIN, 20));
+        limitLabel.setForeground(Color.WHITE);
+
+        JLabel AmountLabel = new JLabel("Enter amount to pay");
+        AmountLabel.setBounds(limitLabel.getX(), limitLabel.getY() + 35, 300, 30);
+        AmountLabel.setFont(new Font("Arial", Font.PLAIN, 20));
+        AmountLabel.setForeground(Color.WHITE);
 
         JTextField amounttTextField = new JTextField("Amount");
         amounttTextField.setBounds(BalanceLabel.getX(),  BalanceLabel.getY() + 50 , debit_credit_button_size.width + 90,30); 
@@ -626,7 +632,7 @@ public class runProgram extends JFrame{
         mainContentPanel.add(paymentButton);
         mainContentPanel.add(accountNumberTextField);
         mainContentPanel.add(pamentLabel);
-        mainContentPanel.add(amountJLabel);
+        // mainContentPanel.add(amountJLabel);
         mainContentPanel.add(amounttTextField);
         mainContentPanel.add(BalanceLabel);
         mainContentPanel.add(textBackgroundPanel);
@@ -800,7 +806,7 @@ public class runProgram extends JFrame{
         transferButton.setFont(new Font("Arial", Font.PLAIN, 20));
         transferButton.setBackground(new Color(0x032F30));
         transferButton.setForeground(Color.WHITE);
-        transferButton.addActionListener(new ActionListener() { 
+        transferButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){ 
                 try{
                     Login login = new Login();
