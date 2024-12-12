@@ -51,10 +51,11 @@ public class Balance{
                 currentBalance = account.getBalance() + allAmountDeposit(account.getAccountNum());
                 currentBalance -= allAmountWithdraw(account.getAccountNum()) + allAmountTransfer(account.getAccountNum());
                 account.setBalance(currentBalance);
-                continue;
+                
             }
-            else{
-                currentBalance = allAmountWithdraw(account.getAccountNum()) + allAmountTransfer(account.getAccountNum());
+            if(account.getType().equals("c")){
+                currentBalance = account.getBalance() + allAmountWithdraw(account.getAccountNum()) + allAmountTransfer(account.getAccountNum());
+                System.out.println("account: " + account.getAccountNum() + "\nbalance: " + account.getBalance());
                 currentBalance -= allAmountPayment(account.getAccountNum());
                 account.setBalance(currentBalance);
             }
