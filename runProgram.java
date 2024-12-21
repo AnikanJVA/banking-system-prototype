@@ -18,6 +18,8 @@ public class runProgram extends JFrame{
 
     private JButton exitButton;
 
+    ImageIcon icon;
+
     public DecimalFormat decimalFormat = new DecimalFormat();
     final Dimension top_bottom_border_size = new Dimension(640, 66);
     final Dimension background_size = new Dimension(640, 349);
@@ -34,7 +36,12 @@ public class runProgram extends JFrame{
         setSize(640, 480);
         setResizable(false);
         setLocationRelativeTo(null);
-        
+
+        // ____________________ IMAGE ICON ____________________
+        icon = new ImageIcon("icon.png");
+        setIconImage(icon.getImage());
+        // ____________________ IMAGE ICON ____________________
+
         topPanel = new JPanel();
         topPanel.setPreferredSize(top_bottom_border_size);
         topPanel.setBackground(new Color(0x032F30));
@@ -95,6 +102,31 @@ public class runProgram extends JFrame{
         runLogin();
     }
     // ========================= MAIN FRAME =====================
+
+
+    // ========================= CONFIRMATION DIALOG =====================
+    public void runConfirmationDialog(String transactionName){
+        JOptionPane.showMessageDialog(backgroundPanel, "    " + transactionName + " successful.", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
+    }
+    // ========================= CONFIRMATION DIALOG =====================
+
+
+    // ========================= NEW TRANSACTION DIALOG =====================
+    public void runNewTransactionDialog(Account account, String type){
+        int newTransaction = JOptionPane.showConfirmDialog(backgroundPanel, "   Make another transaction?", "New Tranasaction", JOptionPane.YES_NO_OPTION);
+        if(newTransaction == 0){
+            if (type.equals("c")) {
+                runCreditSelection(account);
+            }
+            else{
+                runDebitSelection(account);
+            }
+        }
+        else{
+            runLogin();
+        }
+    }
+    // ========================= NEW TRANSACTION DIALOG =====================
 
 
     // ========================= LOGIN WINDOW =========================  
@@ -464,8 +496,8 @@ public class runProgram extends JFrame{
                         }
                         else{
                             withdraw.amountWithdraw(amount);
-                            JOptionPane.showMessageDialog(backgroundPanel, "     Withdraw successful.", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
-                            runLogin();
+                            runConfirmationDialog("Withdraw");
+                            runNewTransactionDialog(account, account.getType());
                         }
                     }
                     else if(accountType.equals("d")){
@@ -474,8 +506,8 @@ public class runProgram extends JFrame{
                         }
                         else{
                             withdraw.amountWithdraw(amount);
-                            JOptionPane.showMessageDialog(backgroundPanel, "     Withdraw successful.", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
-                            runLogin();
+                            runConfirmationDialog("Withdraw");
+                            runNewTransactionDialog(account, account.getType());
                         }
                     }
                 }
@@ -610,8 +642,8 @@ public class runProgram extends JFrame{
                     }
                     else{
                         payment.amountPayment(amount, payerAccountNum, false);
-                        JOptionPane.showMessageDialog(backgroundPanel, "     Payment successful.", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
-                        runLogin();
+                        runConfirmationDialog("Payment");
+                        runNewTransactionDialog(account, account.getType());
                     }
                 }
                 catch(NullPointerException err){
@@ -701,8 +733,8 @@ public class runProgram extends JFrame{
                     }
                     else{
                         deposit.amountDeposit(amount);
-                        JOptionPane.showMessageDialog(backgroundPanel, "     Deposit successful.", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
-                        runLogin();
+                        runConfirmationDialog("Deposit");
+                        runNewTransactionDialog(account, account.getType());
                     }
                 }
                 catch(Exception err){
@@ -837,8 +869,8 @@ public class runProgram extends JFrame{
                         }
                         else{
                             transfer.amountTransfer(amount, receiverAccountNum, account.getAccountNum());
-                            JOptionPane.showMessageDialog(backgroundPanel, "     Transfer successful.", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
-                            runLogin();
+                            runConfirmationDialog("Tranfer");
+                            runNewTransactionDialog(account, account.getType());
                         }
                     }
                     else if(accountType.equals("c")){
@@ -856,8 +888,8 @@ public class runProgram extends JFrame{
                         }
                         else{
                             transfer.amountTransfer(amount, receiverAccountNum, account.getAccountNum());
-                            JOptionPane.showMessageDialog(backgroundPanel, "     Transfer successful.", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
-                            runLogin();
+                            runConfirmationDialog("Transfer");
+                            runNewTransactionDialog(account, account.getType());
                         }
                     }
                 }
@@ -920,21 +952,40 @@ public class runProgram extends JFrame{
         BalanceButton.setForeground(Color.BLACK);
         BalanceButton.setEnabled(false);
         BalanceButton.setHorizontalAlignment(SwingConstants.LEFT);
+        
+        JButton backButton = new JButton("New Transaction");
+        backButton.setBounds(textBackgroundPanel.getX() + 160, exitButton.getY(), exit_button_size.width + 200, exit_button_size.height);
+        backButton.setFont(new Font("Arial", Font.PLAIN, 20));
+        backButton.setForeground(Color.WHITE);
+        backButton.setBackground(new Color(0x032F30));
 
         if(accountType.equals("c")){
             BalanceLabel.setText("Credit Account");
             accountNumLabel.setText("Account Number: " + account.getAccountNum());
             Acc_LimitJLabel.setText("Account Limit: " + decimalFormat.format(account.getLimit()));
             BalanceButton.setText("Outstanding Balance: " + decimalFormat.format(balanceManager.getCurrentBalance(account.getAccountNum())));
+            backButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    runCreditSelection(account);
+                }
+            });
         }
         else{
             BalanceLabel.setText("Debit Account");
             accountNumLabel.setText("Account Number: " + account.getAccountNum());
             accountNumLabel.setBounds(BalanceLabel.getX(),BalanceLabel.getY()+65,300, 42);
             BalanceButton.setText("Current Balance: " + decimalFormat.format(balanceManager.getCurrentBalance(account.getAccountNum())));
+            backButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    runDebitSelection(account);
+                }
+            });
         }   
 
-
+        
+        mainContentPanel.add(backButton);
         mainContentPanel.add(BalanceButton);   
         mainContentPanel.add(BalanceLabel);
         mainContentPanel.add(accountNumLabel);
@@ -957,8 +1008,7 @@ public class runProgram extends JFrame{
         String accountType = "c";
 
         JFrame debugFrame = new JFrame("Debug Buttons");
-        debugFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        debugFrame.setSize(login_form_size);
+        debugFrame.setSize(600, 250);
         debugFrame.setLayout(new GridLayout(3, 3, 2, 2));
         debugFrame.setResizable(false);
         debugFrame.setLocationRelativeTo(null);
@@ -1034,6 +1084,23 @@ public class runProgram extends JFrame{
             }
         });
 
+        JButton confirmationDialogButton = new JButton("Confirmation dialog");
+        confirmationDialogButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                runConfirmationDialog("[TRANSACTION NAME]");
+            }
+        });
+
+        JButton newTransctionDialogButton = new JButton("NT dialog");
+        newTransctionDialogButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                runNewTransactionDialog(credAcc, credAcc.getType());
+            }
+        });
+
+
         debugFrame.add(loginWindowButton);
         debugFrame.add(cSelectWindowButton);
         debugFrame.add(dSelectWindowButton);
@@ -1042,6 +1109,8 @@ public class runProgram extends JFrame{
         debugFrame.add(depositWindowButton);
         debugFrame.add(transferWindowButton);
         debugFrame.add(balanceWindowButton);
+        debugFrame.add(newTransctionDialogButton);
+        debugFrame.add(confirmationDialogButton);
         debugFrame.setVisible(true);
     }
     // ========================= DEBUG WINDOW =====================
